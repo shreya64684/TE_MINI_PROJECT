@@ -1,8 +1,17 @@
 import React from 'react'
+import Hero from '../components/Hero Section/Hero'
+import Features from '../components/Features'
+import HowItWorks from '../components/HowItWorks'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div className='mt-100'>
+       <Hero/>
+       <Features/>
+       <HowItWorks/>
+    </div>
+   
+
   )
 }
 
