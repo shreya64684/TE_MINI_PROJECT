@@ -26,12 +26,21 @@ const Login = () => {
             if (response.ok) {
                 // Save token and user data (if needed)
                 localStorage.setItem('token', data.token); // Store JWT token for further requests
-            
+                localStorage.setItem('userId', data.user.id);
                 // localStorage.setItem('userRole', data.user.role);
                 const role = data.user.role;
-                if (role === 'Admin') navigate('/admin-dashboard');
-                if (role === 'Company') navigate('/company-dashboard');
-               
+                const userId = data.user.id;
+                console.log(userId);
+                
+                if (role === 'Admin') navigate(`/admin-dashboard/${userId}`);
+                if (role === 'Company') navigate(`/company-dashboard/${userId}`);
+                if (role === 'RawMaterialProvider') navigate(`/raw-material-dashboard/${userId}`);
+                if (role === 'FuelProvider') navigate(`/fuel-dashboard/${userId}`);
+                if (role === 'GoodsSupplier') navigate(`/goods-supplier-dashboard/${userId}`);
+                if (role === 'LogisticsPartner') navigate(`/logistics-dashboard/${userId}`);
+                
+            
+            
             } else {
                 setError(data.message || 'Login failed');
             }

@@ -4,7 +4,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { FaPlus, FaIndustry, FaTrash, FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const RawMaterialDashboard = () => {
+const FuelProviderDashboard = () => {
     const navigate = useNavigate();
     const { userId } = useParams(); // Get userId from URL
     const [companyData, setCompanyData] = useState(null);
@@ -41,19 +41,19 @@ const RawMaterialDashboard = () => {
             {/* Sidebar */}
             <aside className="w-64 bg-white shadow-lg">
                 <div className="px-6 py-8">
-                    <h2 className="text-2xl font-bold text-emerald-600">Raw Material Provider Dashboard</h2>
+                    <h2 className="text-2xl font-bold text-emerald-600">Fuel Provider Dashboard</h2>
                 </div>
                 <nav className="mt-10">
                     <ul>
                         <li>
                             <NavLink
-                                to={`/raw-material-dashboard/${userId}/add`}
+                                to={`/fuel-dashboard/${userId}/add`}
                                 className={({ isActive }) =>
                                     isActive ? 'flex items-center px-4 py-2 bg-emerald-200' : 'flex items-center px-4 py-2 hover:bg-gray-200'
                                 }
                             >
                                 <FaPlus className="mr-3" />
-                                Add Raw Material Data
+                                Add CO2 Emissions from Fossil Based Kiln Sources
                             </NavLink>
                         </li>
                        
@@ -73,7 +73,7 @@ const RawMaterialDashboard = () => {
                 </button>
                     <div className="flex items-center space-x-4">
                         <FaUserCircle className="text-3xl text-gray-500" />
-                        <span className="text-lg text-gray-700">RawMaterialProvider Profile</span>
+                        <span className="text-lg text-gray-700">Fuel Provider Profile</span>
                     </div>
                 </div>
                 
@@ -84,4 +84,4 @@ const RawMaterialDashboard = () => {
     );
 };
 
-export default RawMaterialDashboard;
+export default FuelProviderDashboard;

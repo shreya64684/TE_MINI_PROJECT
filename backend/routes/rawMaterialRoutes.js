@@ -12,7 +12,7 @@ const {
 // @route   POST /api/raw-materials
 // @desc    Create a new raw material entry
 // @access  Private (only certain roles allowed)
-router.post('/', verifyToken, verifyRole(['Admin', 'RawMaterialProvider']), createRawMaterial);
+router.post('/create-raw-material', verifyToken, verifyRole(['Admin', 'RawMaterialProvider']), createRawMaterial);
 
 // @route   GET /api/raw-materials
 // @desc    Get all raw material entries

@@ -8,7 +8,7 @@ const fuelRoutes = require('./routes/fuelRoutes');
 const logisticsRoutes = require('./routes/logisticsRoutes');
 const wasteRoutes = require('./routes/wasteRoutes');
 const usersRoutes = require('./routes/userRoutes');
-
+const companyRoutes = require('./routes/companyRoutes');
 const path = require("path");
 
 dotenv.config();
@@ -34,6 +34,7 @@ app.use('/api/fuel', fuelRoutes);
 app.use('/api/logistics', logisticsRoutes);
 app.use('/api/waste', wasteRoutes);
 app.use('/api/user', usersRoutes);
+app.use('/api/company', companyRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

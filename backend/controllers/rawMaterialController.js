@@ -3,10 +3,14 @@ const RawMaterial = require('../models/RawMaterialData');
 // Create a new raw material entry
 const createRawMaterial = async (req, res) => {
   try {
+    console.log("Incoming request body:", req.body);
     const newRawMaterial = new RawMaterial(req.body);
+    console.log("newRawMaterial:" , newRawMaterial);
+    
     const savedMaterial = await newRawMaterial.save();
     res.status(201).json(savedMaterial);
   } catch (error) {
+    console.error('Error saving raw material:', error);
     res.status(500).json({ message: 'Error creating raw material', error });
   }
 };
