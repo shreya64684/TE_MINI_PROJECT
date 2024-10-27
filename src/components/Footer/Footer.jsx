@@ -5,7 +5,7 @@ import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-
 
 const Foot = () => {
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className='flex flex-col mt-5'>
       <Footer container className='mt-auto'>
       <div className="w-full">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
