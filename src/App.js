@@ -48,7 +48,7 @@ function App() {
           <Route path="/standards" element={<Standards />} />
           <Route path="/register" element={<Register/>} />
           <Route path="/login" element={<Login/>} />
-         
+          <Route path="/reports" element={<Report/>}/>
           <Route path="/company-selection" element={<CompanySelection/>} />
           <Route path="/company-dashboard/:userId/*" element={<CompanyDashboard />} >
             <Route path="add-electricity" element={<AddElectricity />} />
