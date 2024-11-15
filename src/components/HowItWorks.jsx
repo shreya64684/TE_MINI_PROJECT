@@ -17,8 +17,11 @@ const HowItWorks = () => {
                 </div>
                 <div class="bg-white shadow-lg rounded-md p-4 hover:bg-gradient-to-r hover:from-red-50 hover:to-sky-50">
                     <h1 class="font-bold text-xl pb-4">1. Data Submission </h1>
-                    <p >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium rationeim. Repellendus hic quas facere. Consequatur sint ut quidem saepe! Soluta assumenda nisi rerum quaerat commodi hic aperiam.
+                    <p>
+                    Verified data is categorized into three scopes:
+                        Scope 1: Direct CO2 emissions from the company's owned sources.
+                        Scope 2: Indirect emissions from electricity consumption.
+                        Scope 3: Other indirect emissions from non-kiln sources like supply chain and logistics.
                     </p>
                 </div>
             </div>
@@ -34,7 +37,7 @@ const HowItWorks = () => {
                 <div class=" bg-white  shadow-lg  rounded-xl p-4 hover:bg-gradient-to-r hover:from-red-50 hover:to-sky-50">
                     <h1 class="font-bold text-xl">2. Storage in Blockchain </h1>
                     <p >
-                        Lorem ipsum dolor sit amet   facere nemo enim. Repellendus hic quas facere. Consequatur sint ut quidem saepe! Soluta assumenda nisi rerum quaerat commodi hic aperiam.
+                    Emission data is securely stored using blockchain technology, ensuring data accuracy and preventing tampering.
                     </p>
                 </div>
             </div>
@@ -49,7 +52,7 @@ const HowItWorks = () => {
                 </div>
                 <div class=" bg-white   shadow-lg rounded-xl p-4 hover:bg-gradient-to-r hover:from-red-50 hover:to-sky-50">
                     <h1 class="font-bold text-xl">3. Analysis and Calculation </h1>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam neque cum  sunt  similique omnis adipisci tempore placeat ad.</p>                        
+                    <p> The system calculates the company's total CO2 emissions based on the entered data.</p>                        
                 </div>
             </div>
 

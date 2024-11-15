@@ -10,6 +10,19 @@ import GoodsServicesForm from "./pages/Goods&ServicesForm";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
+import AddElectricity from "./components/AddElectricity";
+import AddCO2Emissions from "./components/AddCO2Emissions";
+import AddFuelData from "./components/AddFuelData";
+import RawMaterialDashboard from "./components/Dashboard/RawMaterialDashboard";
+import FuelProviderDashboard from "./components/Dashboard/FuelProviderDashboard";
+import GoodsSupplierDashboard from "./components/Dashboard/GoodsSupplierDashboard";
+import AddRawMaterialData from "./components/AddRawMaterialData";
+import AddGoodsAndServices from "./components/AddGoodsAndServices";
+import LogisticsDashboard from "./components/Dashboard/LogisticsDashboard";
+import CompanySelection from "./components/CompanySelection";
+import ipfs from './ipfs'
+
+
 
 function App() {
   const location = useLocation();
@@ -30,10 +43,33 @@ function App() {
           <Route path="/standards" element={<Standards />} />
           <Route path="/register" element={<Register/>} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/company-dashboard" element={<CompanyDashboard/>} />
-          <Route path="/scope1" element={<Scope1Form />} />
-          <Route path="/scope2" element={<Scope2Form />} />
-          <Route path="/scope3" element={<Scope3Form/>} />
+         
+          <Route path="/company-selection" element={<CompanySelection/>} />
+          <Route path="/company-dashboard/:userId/*" element={<CompanyDashboard />} >
+            <Route path="add-electricity" element={<AddElectricity />} />
+            <Route path="add-co2-emissions" element={<AddCO2Emissions />} />
+            <Route path="add-raw-material" element={<AddRawMaterialData />} />
+            <Route path="add-goods" element={<AddGoodsAndServices/>} />
+            <Route path="add-fuel" element={<AddFuelData/>} />
+          {/* Add more dashboard routes here */}
+        </Route>
+        <Route path="/goods-supplier-dashboard/:userId/*" element={<GoodsSupplierDashboard />} >
+            <Route path="add" element={<AddGoodsAndServices/>} />
+            
+          {/* Add more dashboard routes here */}
+        </Route>
+        <Route path="/raw-material-dashboard/:userId/*" element={<RawMaterialDashboard/>} >
+            <Route path="add" element={<AddRawMaterialData />} />
+          {/* Add more dashboard routes here */}
+        </Route>
+        <Route path="/fuel-dashboard/:userId/*" element={<FuelProviderDashboard/>} >
+            <Route path="add" element={<AddFuelData/>} />
+          {/* Add more dashboard routes here */}
+        </Route>
+        <Route path="/logistics-dashboard/:userId/*" element={<LogisticsDashboard/>} >
+            <Route path="add-transportation" element={<AddFuelData/>} />
+          {/* Add more dashboard routes here */}
+        </Route>
         </Routes>
         {!isDashboardRoute() && <Foot />}
        

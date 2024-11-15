@@ -6,13 +6,16 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  getAllUsers
 } = require('../controllers/userController');
 
 // Routes for user registration, login, and user management
 router.post('/register', registerUser); // Register a new user
 router.post('/login', loginUser); // User login
+router.get('/all-users',getAllUsers);
 router.get('/:id', getUserById); // Get user details by ID
 router.put('/:id', updateUser); // Update user details by ID
 router.delete('/:id', deleteUser); // Delete user by ID
+
 
 module.exports = router;

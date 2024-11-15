@@ -6,12 +6,15 @@ const Company = require('../models/Company');
 const User = require('../models/User');
 const { verifyToken, verifyRole } = require('../middlewares/authMiddleware'); 
 
+router.get('/all-companies', async(req,res) => {
+    
+})
 
 
 // Add Electricity Data to a Company
 router.post('/:id/add-electricity', verifyToken, async (req, res) => {
     const { date, totalElectricityConsumedMWH, electricityBill } = req.body;
-    console.log(req.body);
+    console.log("date, totalElectricityConsumedMWH, electricityBill: ", req.body);
 
     const userCompanyId  = req.params.id;
     console.log('companyId from request:', userCompanyId);

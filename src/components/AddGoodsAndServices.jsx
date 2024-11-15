@@ -32,6 +32,7 @@ const AddGoodsAndServices = () => {
 
             const data = await response.json();
             if (response.ok) {
+                
                 setSuccessMessage('Goods and Services data successfully added.');
                 setErrorMessage('');
                 // Reset form

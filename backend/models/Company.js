@@ -48,8 +48,8 @@ const CompanySchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    updatedAt: {
-        type: Date,
+    updatedAt: { 
+        type: Date, 
         default: Date.now,
     },
 });

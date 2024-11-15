@@ -36,5 +36,5 @@ app.use('/api/waste', wasteRoutes);
 app.use('/api/user', usersRoutes);
 app.use('/api/company', companyRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

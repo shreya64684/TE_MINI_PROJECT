@@ -45,7 +45,7 @@
 // const { MNEMONIC, PROJECT_ID } = process.env;
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
-
+const path = require('path'); 
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -56,13 +56,15 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
-  contracts_build_directory: path.join(__dirname, "./src/contracts"),
+  contracts_build_directory: path.join(__dirname, "/contracts"),
 
   networks: {
     development: {
       host: "127.0.0.1", // Ganache host
       port: 7545,        // Ganache port
       network_id: "*",   // Match any network id
+      gas: 6000000, // Increase gas limit
+      gasPrice: 20000000000, // Optional: set a gas price
   },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -112,7 +114,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.21",      // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.0",      // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {

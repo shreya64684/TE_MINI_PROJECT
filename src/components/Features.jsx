@@ -2,7 +2,7 @@ import React from 'react'
 
 const Features = () => {
     return (
-        <section className='container mx-auto py-20 '>
+        <section className='container mx-auto py-20 mt-[-130px]'>
             <h1 className='text-center text-emerald-700 text-6xl py-10'>Key Features</h1>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 m-auto'>
                 <div className='shadow-md p-6 rounded-md bg-emerald-300 '>
