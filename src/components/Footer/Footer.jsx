@@ -1,6 +1,6 @@
 import React from 'react'
 import './Footer.css';
-import {Footer} from 'flowbite-react';
+import { Footer } from 'flowbite-react';
 import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 
 const Foot = () => {
@@ -12,8 +12,8 @@ const Foot = () => {
           <div>
             <Footer.Brand
               href="https://flowbite.com"
-             
-             
+              src="https://flowbite.com/docs/images/logo.svg"
+              alt="Flowbite Logo"
               name="Secure Carbon Footprint Tracking"
             />
           </div>
@@ -21,8 +21,8 @@ const Foot = () => {
             <div>
               <Footer.Title title="about" />
               <Footer.LinkGroup col>
-                <Footer.Link href="/">Secure Carbon Footprint Tracking</Footer.Link>
-                <Footer.Link href="/about">About</Footer.Link>
+                <Footer.Link href="#">Secure Carbon Footprint Tracking</Footer.Link>
+                <Footer.Link href="#">Tailwind CSS</Footer.Link>
               </Footer.LinkGroup>
             </div>
             <div>
@@ -43,7 +43,7 @@ const Foot = () => {
         </div>
         <Footer.Divider />
         <div className="w-full sm:flex sm:items-center sm:justify-between">
-          <Footer.Copyright href="#" by="Caron Footprint Score™" year={2024} />
+          <Footer.Copyright href="#" by="Flowbite™" year={2022} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <Footer.Icon href="#" icon={BsFacebook} />
             <Footer.Icon href="#" icon={BsInstagram} />
@@ -55,7 +55,7 @@ const Foot = () => {
       </div>
     </Footer>
 
-    
+
 
     </div>
   )

@@ -23,19 +23,24 @@ import CompanySelection from "./components/CompanySelection";
 import ipfs from './ipfs'
 
 
+import Report from "./pages/Report";
 
 function App() {
   const location = useLocation();
 
-  const dashboardRoutes = ['/company-dashboard', '/raw-material-dashboard', '/fuel-dashboard', '/goods-supplier-dashboard'];
+  const dashboardRoutes = [
+    "/company-dashboard",
+    "/raw-material-dashboard",
+    "/fuel-dashboard",
+    "/goods-supplier-dashboard",
+  ];
   // Function to determine if the current route is a dashboard route
   const isDashboardRoute = () => {
-    return dashboardRoutes.some(route => location.pathname.startsWith(route));
+    return dashboardRoutes.some((route) => location.pathname.startsWith(route));
   };
 
   return (
     <div className="App">
-     
       {!isDashboardRoute() && <Navbar />}
         <Routes>
           <Route path="/" element={<Home />} />
