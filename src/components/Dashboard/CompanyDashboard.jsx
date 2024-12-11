@@ -89,7 +89,7 @@ const CompanyDashboard = () => {
                                 Add Fuel Data
                             </NavLink>
                         </li>
-                        <li>
+                        {/* <li>
                             <NavLink
                                 to={`/company-dashboard/${userId}/add-goods`}
                                 className={({ isActive }) =>
@@ -98,6 +98,17 @@ const CompanyDashboard = () => {
                             >
                                 <FaPlus className="mr-3" />
                                 Add Goods and Services Data
+                            </NavLink>
+                        </li> */}
+                         <li>
+                            <NavLink
+                                to={`/company-dashboard/${userId}/verification-status`}
+                                className={({ isActive }) =>
+                                    isActive ? 'flex items-center px-4 py-2 bg-emerald-200' : 'flex items-center px-4 py-2 hover:bg-gray-200'
+                                }
+                            >
+                                <FaPlus className="mr-3" />
+                                Verification Status
                             </NavLink>
                         </li>
                     </ul>

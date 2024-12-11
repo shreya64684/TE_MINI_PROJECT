@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { create } from 'ipfs-http-client';
 import { initializeWeb3, getContractInstance } from '../utils/web3Setup';
-const ipfs = create({
-    url: 'https://ipfs.infura.io:5001/api/v0',
-    headers: {
-        authorization: `Basic ${Buffer.from(`${process.env.INFURA_KEY}:`).toString('base64')}`
-    }
-});
+
 const AddElectricity = () => {
     const { userId } = useParams();
     console.log(userId);
@@ -17,6 +11,7 @@ const AddElectricity = () => {
         electricityBillHash: ''
     });
     const [file, setFile] = useState(null);
+    const [fileURL, setFileURL] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -55,8 +50,8 @@ const AddElectricity = () => {
     };
     const apiKey = process.env.REACT_APP_PINATA_API_KEY;
     const apiSecret = process.env.REACT_APP_PINATA_API_SECRET;
-    console.log("Pinata API Key:", apiKey);
-    console.log("Pinata API Secret:", apiSecret);
+    // console.log("Pinata API Key:", apiKey);
+    // console.log("Pinata API Secret:", apiSecret);
 
     // Upload file to Pinata
     const uploadToPinata = async (file) => {
@@ -93,8 +88,11 @@ const AddElectricity = () => {
     
             const data = await res.json();
             console.log(data);
-            
+            const fileURL = 'https://gateway.pinata.cloud/ipfs/' + data.IpfsHash;
+            setFileURL(fileURL);
+            console.log(fileURL);
             return data.IpfsHash;
+            
         } catch (error) {
             console.error("Error uploading file to Pinata:", error);
             throw error;
@@ -107,19 +105,11 @@ const AddElectricity = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // // Upload file to IPFS and get the hash
-            // const added = await ipfs.add(file);
-            // console.log(added);
-            
-            // const billHash = added.path;
-            // console.log(billHash);
-
             // Upload file to Pinata and get the IPFS hash
             const billHash = await uploadToPinata(file);
             console.log(billHash);
 
             // Add the IPFS hash to formData and send it to the blockchain
-
             const response = await fetch(`http://localhost:5000/api/company/${userId}/add-electricity`, {
                 method: 'POST',
                 headers: {

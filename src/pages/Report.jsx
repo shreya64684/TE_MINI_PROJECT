@@ -1,9 +1,31 @@
 import React from 'react'
 
 const Report = () => {
+  const sampleReportData = {
+    electricity: [
+        { date: "2024-11-01", consumed: 500, conversionFactor: 0.233, co2Equivalent: 116.5 },
+        { date: "2024-11-02", consumed: 600, conversionFactor: 0.233, co2Equivalent: 139.8 },
+    ],
+    fuel: [
+        { date: "2024-11-01", quantity: 200, conversionFactor: 2.7, co2Equivalent: 540 },
+    ],
+    rawMaterial: [
+        { date: "2024-11-01", quantity: 1000, conversionFactor: 0.8, co2Equivalent: 800 },
+    ],
+    waste: [
+        { date: "2024-11-01", quantity: 300, conversionFactor: 0.5, co2Equivalent: 150 },
+    ],
+    goods: [
+        { date: "2024-11-01", quantity: 400, conversionFactor: 1.2, co2Equivalent: 480 },
+    ],
+    totalCO2: 2226.3, // Sum of all CO₂ equivalents
+  };
+  
+     // Destructure data from props
+     const { electricity, fuel, rawMaterial, waste, goods, totalCO2 } = sampleReportData;
   return (
     <div>
-      <div className="bg-gray-100 min-h-screen flex justify-center py-10">
+      <div className="bg-gray-100  flex justify-center py-10">
         <div className="bg-white shadow-lg rounded-lg border border-gray-300 max-w-5xl w-full p-8">
           <header className="text-center border-b border-gray-300 pb-4 mb-6">
             <h1 className="text-2xl font-bold text-gray-700">Carbon Footprint Report</h1>
@@ -27,138 +49,99 @@ const Report = () => {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
-              <h2 class="text-xl font-semibold text-green-700">Metric 1</h2>
+              <h2 class="text-xl font-semibold text-green-700">Scope 1</h2>
               <p class="text-4xl font-bold text-green-800">75%</p>
               <p class="text-sm text-gray-500">Description of Metric 1</p>
             </div>
 
             <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
-              <h2 class="text-xl font-semibold text-green-700">Metric 2</h2>
+              <h2 class="text-xl font-semibold text-green-700">Scope 2</h2>
               <p class="text-4xl font-bold text-green-800">120</p>
               <p class="text-sm text-gray-500">Description of Metric 2</p>
             </div>
 
             <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
-              <h2 class="text-xl font-semibold text-green-700">Metric 3</h2>
+              <h2 class="text-xl font-semibold text-green-700">Scope 3</h2>
               <p class="text-4xl font-bold text-green-800">50%</p>
               <p class="text-sm text-gray-500">Description of Metric 3</p>
             </div>
           </div>
 
-          {/* Verification status Table */}
-          <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-300 my-4">
-            <table className="min-w-full bg-white">
-              <thead>
-                <tr>
-                  <th className="py-3 px-6 bg-gray-200 text-left text-gray-600 font-semibold uppercase text-sm">Category</th>
-                  <th className="py-3 px-6 bg-gray-200 text-left text-gray-600 font-semibold uppercase text-sm">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-gray-300">
-                  <td className="py-3 px-6 text-gray-700 font-medium">Category 1</td>
-                  <td className="py-3 px-6">
-                    <span
-                      className={'*:first-line:py-1 px-3 rounded-full text-sm font-semibold bg-green-100 text-green-600'}
-                    >
-                      Verified
-                    </span>
-                    <span
-                      className={'py-1 px-3 rounded-full text-sm font-semibold bg-red-100 text-red-600'}
-                    >
-                      Not Verified
-                    </span>
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-300">
-                  <td className="py-3 px-6 text-gray-700 font-medium">Category 2</td>
-                  <td className="py-3 px-6">
-                    <span
-                      className={'py-1 px-3 rounded-full text-sm font-semibold bg-green-100 text-green-600'}
-                    >
-                      Verified
-                    </span>
-                    <span
-                      className={'*:first-line:py-1 px-3 rounded-full text-sm font-semibold bg-red-100 text-red-600'}
-                    >
-                      Not Verified
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
+          </div>
+      
+      <div className="bg-gray-100 min-h-screen p-6">
+            <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-8">
+                <h1 className="text-3xl font-bold text-center text-emerald-600 mb-6">
+                    Company Carbon Footprint Report
+                </h1>
+
+                {/* Section: Electricity */}
+                <section className="mb-8">
+                    <h2 className="text-xl font-semibold text-gray-700 mb-4">Electricity Data</h2>
+                    <table className="w-full text-left border-collapse border border-gray-300">
+                        <thead>
+                            <tr>
+                                <th className="border border-gray-300 px-4 py-2">Date</th>
+                                <th className="border border-gray-300 px-4 py-2">Electricity Consumed (MWh)</th>
+                                <th className="border border-gray-300 px-4 py-2">Conversion Factor</th>
+                                <th className="border border-gray-300 px-4 py-2">CO₂ Equivalent (kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {electricity.map((entry, index) => (
+                                <tr key={index}>
+                                    <td className="border border-gray-300 px-4 py-2">{entry.date}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{entry.consumed}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{entry.conversionFactor}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{entry.co2Equivalent}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </section>
+
+                {/* Repeat similar sections for Fuel, Raw Material, Waste, and Goods */}
+                {[fuel, rawMaterial, waste, goods].map((category, idx) => (
+                    <section className="mb-8" key={idx}>
+                        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                            {["Fuel Data", "Raw Material Data", "Waste Data", "Goods and Supply Data"][idx]}
+                        </h2>
+                        <table className="w-full text-left border-collapse border border-gray-300">
+                            <thead>
+                                <tr>
+                                    <th className="border border-gray-300 px-4 py-2">Date</th>
+                                    <th className="border border-gray-300 px-4 py-2">Quantity</th>
+                                    <th className="border border-gray-300 px-4 py-2">Conversion Factor</th>
+                                    <th className="border border-gray-300 px-4 py-2">CO₂ Equivalent (kg)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {category.map((entry, index) => (
+                                    <tr key={index}>
+                                        <td className="border border-gray-300 px-4 py-2">{entry.date}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{entry.quantity}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{entry.conversionFactor}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{entry.co2Equivalent}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </section>
+                ))}
+
+                {/* Total CO₂ Emitted */}
+                <div className="mt-10 bg-emerald-100 p-6 rounded-lg">
+                    <h2 className="text-2xl font-bold text-center text-emerald-700 mb-4">Total CO₂ Emissions</h2>
+                    <p className="text-xl font-semibold text-gray-800 text-center">
+                        Total CO₂ Emitted by Company:{" "}
+                        <span className="text-emerald-700">{totalCO2} kg</span>
+                    </p>
+                </div>
+            </div>
         </div>
+      
       </div>
-
-      <div class="min-h-screen bg-green-50 p-6">
-        <h1 class="text-3xl font-semibold text-green-700 mb-6">Report Overview</h1>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-          <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
-            <h2 class="text-xl font-semibold text-green-700">Metric 1</h2>
-            <p class="text-4xl font-bold text-green-800">75%</p>
-            <p class="text-sm text-gray-500">Description of Metric 1</p>
-          </div>
-
-          <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
-            <h2 class="text-xl font-semibold text-green-700">Metric 2</h2>
-            <p class="text-4xl font-bold text-green-800">120</p>
-            <p class="text-sm text-gray-500">Description of Metric 2</p>
-          </div>
-
-          <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
-            <h2 class="text-xl font-semibold text-green-700">Metric 3</h2>
-            <p class="text-4xl font-bold text-green-800">50%</p>
-            <p class="text-sm text-gray-500">Description of Metric 3</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 gap-2 py-4">
-          <div className="border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-md">
-            <h2 className="text-lg font-semibold text-gray-700">Card</h2>
-            <p className="text-2xl text-gray-800 font-bold">47</p>
-            <p className="text-sm text-gray-500">Min-Max</p>
-            <div className="mt-2 bg-gray-300 rounded-full h-2 w-full">
-              <div
-                className="bg-blue-500 h-2 rounded-full"
-              ></div>
-            </div>
-          </div>
-
-
-          <div className="border border-gray-300 bg-green-200 rounded-lg p-4 shadow-md flex items-center">
-            <h2 className="text-lg font-semibold text-gray-700 mr-4">Yes Card</h2>
-            <div
-              className={'text-2xl font-bold px-4 py-2 rounded-lg bg-white text-green-600'}
-            >
-              47
-            </div>
-          </div>
-
-          <div className="border border-gray-300 bg-red-200 rounded-lg p-4 shadow-md flex items-center">
-            <h2 className="text-lg font-semibold text-gray-700 mr-4">No Card</h2>
-            <div
-              className={'text-2xl font-bold px-4 py-2 rounded-lg bg-white text-red-600'}
-            >
-              78
-            </div>
-          </div>
-
-          <div className="border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-md">
-            <h2 className="text-lg font-semibold text-gray-700">Card</h2>
-            <p className="text-3xl text-gray-800 font-bold">47%</p>
-            <div className="mt-2 bg-gray-300 rounded-full h-2 w-full">
-              <div
-                style={{ width: `$47%` }}
-                className="bg-green-500 h-2 rounded-full"
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }
 

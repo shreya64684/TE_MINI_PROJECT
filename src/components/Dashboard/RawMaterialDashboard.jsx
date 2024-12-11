@@ -45,7 +45,7 @@ const RawMaterialDashboard = () => {
                 </div>
                 <nav className="mt-10">
                     <ul>
-                        <li>
+                        {/* <li>
                             <NavLink
                                 to={`/raw-material-dashboard/${userId}/add`}
                                 className={({ isActive }) =>
@@ -55,7 +55,7 @@ const RawMaterialDashboard = () => {
                                 <FaPlus className="mr-3" />
                                 Add Raw Material Data
                             </NavLink>
-                        </li>
+                        </li> */}
                        
                     </ul>
                 </nav>

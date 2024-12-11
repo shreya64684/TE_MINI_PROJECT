@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CompanySelection = () => {
+    const { userId } = useParams();
     const [companies, setCompanies] = useState([]);  // Store the list of companies
     const [selectedCompanyId, setSelectedCompanyId] = useState('');  // Store the selected company's ID
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const CompanySelection = () => {
         }
 
         // Navigate to the dashboard, passing the selected company's ID
-        navigate(`/company-dashboard/${selectedCompanyId}`);
+        navigate(`/electricity-supplier-dashboard/${selectedCompanyId}`);
     };
 
     return (

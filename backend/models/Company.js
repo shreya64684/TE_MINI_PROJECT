@@ -15,6 +15,14 @@ const ElectricityDataSchema = new mongoose.Schema({
         type: String, // Could store the file path or a link to the bill
         required: false,
     },
+    verified: {
+        type: Boolean,
+        default: false, // Default value is false, indicating it hasn't been verified yet
+    },
+    accepted: {
+        type: Boolean,
+        default: false, // Default value is false, indicating it hasn't been accepted yet
+    },
 });
 
 const CO2EmissionDataSchema = new mongoose.Schema({
@@ -38,12 +46,44 @@ const CO2EmissionDataSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    verified: {
+        type: Boolean,
+        default: false, // Default value is false, indicating it hasn't been verified yet
+    },
+    accepted: {
+        type: Boolean,
+        default: false, // Default value is false, indicating it hasn't been accepted yet
+    },
 });
+
+
+const rawMaterialSchema = new mongoose.Schema({
+    material: [{
+        materialType: { type: String, required: true }, // limestone, clay, etc.
+        quantitySupplied: { type: Number, required: true }// in metric tons
+    }], 
+    date: {
+        type: Date,
+        required: true,
+    },
+    rawMaterialBill: {type: String, required: false,},// Could store the file path or a link to the bill
+    verified: {
+        type: Boolean,
+        default: false, // Default value is false, indicating it hasn't been verified yet
+    },
+    accepted: {
+        type: Boolean,
+        default: false, // Default value is false, indicating it hasn't been accepted yet
+    },
+
+});
+
 
 const CompanySchema = new mongoose.Schema({
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     electricityData: [ElectricityDataSchema], // Array of electricity data records
     co2EmissionsData: [CO2EmissionDataSchema], // Array of CO2 emissions records from non-kiln sources
+    rawMaterialData: [rawMaterialSchema],
     createdAt: {
         type: Date,
         default: Date.now,

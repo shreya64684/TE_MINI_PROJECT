@@ -6,7 +6,8 @@ const userTypes = [
     'RawMaterialProvider',
     'FuelProvider',
     'GoodsSupplier',
-    'LogisticsPartner'
+    'LogisticsPartner',
+    'ElectricitySupplier' 
 ];
 
 const UserTypeDropdown = ({ selectedType, setSelectedType }) => {
