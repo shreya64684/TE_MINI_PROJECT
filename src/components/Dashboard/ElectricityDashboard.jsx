@@ -15,6 +15,8 @@ const ElectricityDashboard = () => {
     const [error, setError] = useState('');
     const token = localStorage.getItem('token');
     const [web3Initialized, setWeb3Initialized] = useState(false);
+    // Add remark state for the verifier
+    const [remark, setRemark] = useState('');
 
     const handleLogout = () => {
         // Clear the token and any other user data from local storage
@@ -39,7 +41,7 @@ const ElectricityDashboard = () => {
                 } else {
                     setError(data.message || 'Failed to fetch electricity data');
                 }
-            } catch (err) {
+            } catch (error) {
                 setError('Error fetching electricity data');
             }
         };
@@ -159,6 +161,38 @@ const ElectricityDashboard = () => {
     }
 };
 
+const handleReject = async (data, remark) => {
+    console.log('Rejecting data with remark:', remark);
+    try {
+        const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/reject`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ date: data.date, remark }), // Send the unique identifier and remark
+        });
+
+        if (response.ok) {
+            setSuccessMessage('Data rejected successfully!');
+            setErrorMessage('');
+            // Update the data with rejection status and remark
+            setElectricityData((prevData) =>
+                prevData.map((item) =>
+                    item.date === data.date ? { ...item, verified: false, remark } : item
+                )
+            );
+        } else {
+            const responseData = await response.json();
+            setErrorMessage(responseData.message || 'Failed to reject data');
+        }
+    } catch (error) {
+        setErrorMessage('Error rejecting data');
+        console.error(error);
+    }
+};
+
+
 const handleAccept = async (data) => {
     console.log('Data sent to blockchain or initially in accept function:', data);
 
@@ -179,6 +213,18 @@ const handleAccept = async (data) => {
             return;
         }
 
+        console.log('Data being sent to blockchain before await : ', {
+            consumption,
+            billHash: data.electricityBill, // Assuming it's an IPFS hash
+            timestamp,
+        });
+
+        await addElectricityDataToBlockchain({
+            consumption,
+            billHash: data.electricityBill,
+            timestamp,
+        });
+
         const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/accept`, {
             method: 'PATCH',
             headers: {
@@ -189,25 +235,14 @@ const handleAccept = async (data) => {
         });
 
         if (response.ok) {
+                    
+            // console.log('Data being sent to blockchain in accept:', data);
+            setSuccessMessage('Data accepted successfully!');
             setElectricityData((prevData) =>
                 prevData.map((item) =>
                     item.date === data.date ? { ...item, accepted: true } : item
                 )
             );
-
-            console.log('Data being sent to blockchain before await : ', {
-                consumption,
-                billHash: data.electricityBill, // Assuming it's an IPFS hash
-                timestamp,
-            });
-
-            await addElectricityDataToBlockchain({
-                consumption,
-                billHash: data.electricityBill,
-                timestamp,
-            });
-            // console.log('Data being sent to blockchain in accept:', data);
-            setSuccessMessage('Data accepted successfully!');
             setErrorMessage('');
         } else {
             const responseData = await response.json();
@@ -264,8 +299,8 @@ const handleAccept = async (data) => {
                                     <p>
                                         Bill:{' '}
                                         <a
-                                            href={`https://ipfs.io/ipfs/${data.electricityBill}`}  
-                                        //    href={`https://gateway.pinata.cloud/ipfs/${data.electricityBillHash}`}
+                                            // href={`https://ipfs.io/ipfs/${data.electricityBill}`}  
+                                           href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-500 underline"
@@ -274,31 +309,44 @@ const handleAccept = async (data) => {
                                         </a>
                                     </p>
                                     <img className='w-[300px] h-auto'
-                                    src={`https://ipfs.io/ipfs/${data.electricityBill}`}
+                                    // src={`https://ipfs.io/ipfs/${data.electricityBill}`}
+                                    href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
                                     // src="/public/bill.png"
                                     ></img>
                                     <button
-    onClick={() => handleVerify(data)}
-    disabled={data.verified && data.accepted}
-    className={`mt-2 px-3 py-1 rounded-md ${
-        data.verified 
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-green-500 text-white hover:bg-green-600'
-    }`}
->
-    {data.verified ? 'Verified' : 'Verify'}
-</button>
-<button
-                                            onClick={() => handleAccept(data)}
-                                            disabled={!data.verified || data.accepted}
-                                            className={`px-3 py-1 ml-2 rounded-md ${
-                                                data.accepted
-                                                    ? 'bg-gray-400 cursor-not-allowed'
-                                                    : 'bg-green-500 text-white hover:bg-green-600'
-                                            }`}
-                                        >
-                                            {data.accepted ? 'Accepted' : 'Accept'}
-                                        </button>
+                                        onClick={() => handleVerify(data)}
+                                        disabled={data.verified && data.accepted}
+                                        className={`mt-2 px-3 py-1 rounded-md ${
+                                        data.verified 
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-green-500 text-white hover:bg-green-600'
+                                        }`}
+                                    >
+                                        {data.verified ? 'Verified' : 'Verify'}
+                                    </button>
+                                    <textarea
+                                        placeholder="Enter remark"
+                                        value={remark}
+                                        onChange={(e) => setRemark(e.target.value)}
+                                        className="px-3 py-1 ml-2 rounded-md  mt-1 mb-[-7px]"
+                                    />
+                                    <button 
+                                        onClick={() => handleReject(data, remark)}
+                                        className="px-3 py-1 ml-2 rounded-md bg-green-500 text-white hover:bg-green-600"
+                                    >
+                                        Reject with Remark
+                                    </button>
+                                    <button
+                                        onClick={() => handleAccept(data)}
+                                        disabled={!data.verified || data.accepted}
+                                        className={`px-3 py-1 ml-2 rounded-md ${
+                                            data.accepted
+                                            ? 'bg-gray-400 cursor-not-allowed'
+                                            : 'bg-green-500 text-white hover:bg-green-600'
+                                        }`}
+                                    >
+                                        {data.accepted ? 'Accepted' : 'Accept'}
+                                  </button>
 
                                 </li>
                             ))}

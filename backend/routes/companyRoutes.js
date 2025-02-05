@@ -6,9 +6,6 @@ const Company = require('../models/Company');
 const User = require('../models/User');
 const { verifyToken, verifyRole } = require('../middlewares/authMiddleware'); 
 
-
-
-
 // Add Electricity Data to a Company
 router.post('/:id/add-electricity', verifyToken, async (req, res) => {
     console.log(req.body);
@@ -261,6 +258,38 @@ router.patch('/:companyId/electricity-data/accept', verifyToken, async (req, res
     } catch (error) {
         console.error('Error updating electricity data:', error);
         res.status(500).json({ message: 'Server error while updating electricity data' });
+    }
+});
+
+// PATCH: /api/company/:userId/electricity-data/reject
+router.patch('/:companyId/electricity-data/reject', verifyToken, async (req, res) => {
+    const { companyId } = req.params;
+    const { date, remark } = req.body;
+
+    try {
+        const company = await Company.findOne({ companyId });
+        if (!company) {
+            return res.status(404).json({ message: 'Company not found' });
+        }
+
+        // Find the specific electricity data by date
+        const electricityData = company.electricityData.find(
+            (data) => new Date(data.date).toISOString() === new Date(date).toISOString()
+        );
+
+        if (!electricityData) {
+            return res.status(404).json({ message: 'Electricity data not found' });
+        }
+
+        electricityData.verified = false;
+        console.log("Verfiy status after rejection: " , electricityData.verified);
+        electricityData.remark = remark;
+        console.log("Remark after rejection: " , electricityData.remark );
+        await company.save();
+        res.status(200).json({ message: 'Data rejected successfully', data });
+    } catch (error) {
+        console.error('Error updating electricity data:', error);
+        res.status(500).json({ message: 'Error rejecting data', error });
     }
 });
 

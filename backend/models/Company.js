@@ -23,6 +23,10 @@ const ElectricityDataSchema = new mongoose.Schema({
         type: Boolean,
         default: false, // Default value is false, indicating it hasn't been accepted yet
     },
+    remark: {
+        type: String,
+        default: '', // Default value is an empty string
+    },
 });
 
 const CO2EmissionDataSchema = new mongoose.Schema({
@@ -54,6 +58,10 @@ const CO2EmissionDataSchema = new mongoose.Schema({
         type: Boolean,
         default: false, // Default value is false, indicating it hasn't been accepted yet
     },
+    remark: {
+        type: String,
+        default: '', // Default value is an empty string
+    },
 });
 
 
@@ -66,7 +74,10 @@ const rawMaterialSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    rawMaterialBill: {type: String, required: false,},// Could store the file path or a link to the bill
+    rawMaterialBill: {
+        type: String, 
+        required: false,
+    },// Could store the file path or a link to the bill
     verified: {
         type: Boolean,
         default: false, // Default value is false, indicating it hasn't been verified yet
@@ -75,7 +86,10 @@ const rawMaterialSchema = new mongoose.Schema({
         type: Boolean,
         default: false, // Default value is false, indicating it hasn't been accepted yet
     },
-
+    remark: {
+        type: String,
+        default: '', // Default value is an empty string
+    },
 });
 
 
