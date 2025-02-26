@@ -26,7 +26,7 @@ const RawMaterialDashboard = () => {
                 console.log("Data: ", data);
                 console.log("Raw Material Data: ", data.rawMaterialData);
 
-                if(response.ok) {
+                if (response.ok) {
                     setRawMaterialData(data.rawMaterialData); // Adjust key as per your API
                 } else {
                     setError(data.message || 'Failed to fetch raw material data');
@@ -68,7 +68,7 @@ const RawMaterialDashboard = () => {
                                 Add Raw Material Data
                             </NavLink>
                         </li> */}
-                       
+
                     </ul>
                 </nav>
             </aside>
@@ -78,8 +78,8 @@ const RawMaterialDashboard = () => {
                 {/* Profile and Content Area */}
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-semibold text-gray-700">Dashboard Overview</h1>
-                    <button 
-                        onClick={handleLogout} 
+                    <button
+                        onClick={handleLogout}
                         className='mt-4 py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-200'
                     >
                         Logout
@@ -90,19 +90,19 @@ const RawMaterialDashboard = () => {
                     </div>
                 </div>
                 {/* Raw Material Data Section */}
-                    <div className="p-6">
+                <div className="p-6">
                     <h2 className="text-2xl font-semibold mb-4">Raw Material Supplier Dashboard</h2>
-                        {error && <p className="text-red-500">{error}</p>}
-                        <ul className="list-none ml-5">
-                            {rawMaterialData.map((data) => (
-                                <li key={data._id} className="mb-2">
+                    {error && <p className="text-red-500">{error}</p>}
+                    <ul className="list-none ml-5">
+                        {rawMaterialData.map((data) => (
+                            <li key={data._id} className="mb-2">
                                 <p>Date: {new Date(data.date).toLocaleDateString()}</p>
                                 <p>Materials: {data.rawMaterialData.material} </p>
                                 <p>
                                     Raw Material Bill:{' '}
                                     <a
                                         // href={`https://ipfs.io/ipfs/${data.electricityBill}`}  
-                                       href={`https://gateway.pinata.cloud/ipfs/${data.rawMaterialBill}`}
+                                        href={`https://gateway.pinata.cloud/ipfs/${data.rawMaterialBill}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-blue-500 underline"
@@ -111,11 +111,11 @@ const RawMaterialDashboard = () => {
                                     </a>
                                 </p>
                                 <img className='w-[300px] h-auto'
-                                // src={`https://ipfs.io/ipfs/${data.electricityBill}`}
-                                href={`https://gateway.pinata.cloud/ipfs/${data.rawMaterialBill}`}
+                                    // src={`https://ipfs.io/ipfs/${data.electricityBill}`}
+                                    href={`https://gateway.pinata.cloud/ipfs/${data.rawMaterialBill}`}
                                 // src="/public/bill.png"
                                 ></img>
-                                <button
+                                {/* <button
                                     onClick={() => handleVerify(data)}
                                     disabled={data.verified && data.accepted}
                                     className={`mt-2 px-3 py-1 rounded-md ${
@@ -148,12 +148,12 @@ const RawMaterialDashboard = () => {
                                     }`}
                                 >
                                     {data.accepted ? 'Accepted' : 'Accept'}
-                              </button>
+                              </button> */}
 
                             </li>
-                            ))}
-                        </ul>
-                    </div>
+                        ))}
+                    </ul>
+                </div>
                 {/* Outlet to render content based on selected sidebar option */}
                 <Outlet />
             </div>
