@@ -12,7 +12,7 @@ const Features = () => {
                         </svg>
                     </div>
                     <h1 className='text-3xl'>Verified CO₂ Tracking</h1>
-                    <p>Lorem Ipsum</p>
+                    <p></p>
                 </div>
                 <div className='shadow-md p-6 rounded-md bg-emerald-300'>
                     <div className='hover:animate-spin border rounded-full inline-block p-4 border-slate-800 mb-3'>
@@ -21,7 +21,7 @@ const Features = () => {
                         </svg>
                     </div>
                     <h3 className='text-3xl'>Blockchain Security</h3>
-                    <p>Lorem Ipsum</p>
+                    <p></p>
                 </div>
                 <div className='shadow-md p-6 rounded-md bg-emerald-300'>
                     <div  className='hover:animate-spin border rounded-full inline-block p-4 border-slate-800 mb-3'>
@@ -30,7 +30,7 @@ const Features = () => {
                         </svg>
                     </div>
                     <h3 className='text-3xl'>Personalized Recommendations</h3>
-                    <p>Lorem Ipsum</p>
+                    <p></p>
                 </div>
 
 

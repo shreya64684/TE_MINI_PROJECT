@@ -64,9 +64,9 @@ const HowItWorks = () => {
                         </svg>
                     </div>
                 </div>
-                <div class=" bg-white  shadow-lg  rounded-xl p-4 hover:bg-gradient-to-r hover:from-red-50 hover:to-sky-50">
+                <div class=" bg-white  shadow-lg  rounded-xl p-4 pr-[160px] hover:bg-gradient-to-r hover:from-red-50 hover:to-sky-50">
                     <h1 class="font-bold text-xl">4. Suggestions Based on Results </h1>
-                    <p>Lorem ipsum dolor sit amet facere nemo enim. Repellendus hic quas facere. Consequatur sint ut quidem saepe! Soluta assumenda nisi rerum quaerat commodi hic aperiam.</p>                        
+                    <p>Suggestions on how to compensate the CO2 Emissions.</p>                        
                 </div>
             </div>
 
@@ -79,9 +79,9 @@ const HowItWorks = () => {
                         </svg>
                     </div>
                 </div>
-                <div class=" bg-white  shadow-lg  rounded-xl p-4 hover:bg-gradient-to-r hover:from-red-50 hover:to-sky-50">
-                    <h1 class="font-bold text-xl">5. Submit and wait for feedback. </h1>
-                    <p>Lorem ipsum dolor sit amet facere nemo enim. Repellendus hic quas facere. Consequatur sint ut quidem saepe! Soluta assumenda nisi rerum quaerat commodi hic aperiam.</p>                        
+                <div class=" bg-white  shadow-lg  rounded-xl p-4 pr-[500px] hover:bg-gradient-to-r hover:from-red-50 hover:to-sky-50">
+                    <h1 class="font-bold text-xl">5. Final Report</h1>
+                    <p>Final Report which shows total CO2 Emission from all factors.</p>
                 </div>
             </div>
         </div>

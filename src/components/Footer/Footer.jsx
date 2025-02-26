@@ -12,8 +12,7 @@ const Foot = () => {
           <div>
             <Footer.Brand
               href="https://flowbite.com"
-              src="https://flowbite.com/docs/images/logo.svg"
-              alt="Flowbite Logo"
+              
               name="Secure Carbon Footprint Tracking"
             />
           </div>
@@ -21,29 +20,23 @@ const Foot = () => {
             <div>
               <Footer.Title title="about" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#">Secure Carbon Footprint Tracking</Footer.Link>
-                <Footer.Link href="#">Tailwind CSS</Footer.Link>
+                <Footer.Link href="/">Secure Carbon Footprint Tracking</Footer.Link>
+                
               </Footer.LinkGroup>
             </div>
             <div>
               <Footer.Title title="Follow us" />
               <Footer.LinkGroup col>
                 <Footer.Link href="#">Github</Footer.Link>
-                <Footer.Link href="#">Discord</Footer.Link>
+               
               </Footer.LinkGroup>
             </div>
-            <div>
-              <Footer.Title title="Legal" />
-              <Footer.LinkGroup col>
-                <Footer.Link href="#">Privacy Policy</Footer.Link>
-                <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
-              </Footer.LinkGroup>
-            </div>
+           
           </div>
         </div>
         <Footer.Divider />
         <div className="w-full sm:flex sm:items-center sm:justify-between">
-          <Footer.Copyright href="#" by="Flowbite™" year={2022} />
+          <Footer.Copyright href="#" by="Secure FootPrint" year={2024} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <Footer.Icon href="#" icon={BsFacebook} />
             <Footer.Icon href="#" icon={BsInstagram} />

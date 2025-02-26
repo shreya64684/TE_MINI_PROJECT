@@ -38,7 +38,8 @@ const Login = () => {
                 if (role === 'FuelProvider') navigate(`/fuel-dashboard/${userId}`);
                 if (role === 'GoodsSupplier') navigate(`/goods-supplier-dashboard/${userId}`);
                 if (role === 'LogisticsPartner') navigate(`/logistics-dashboard/${userId}`);
-                
+                // if (role === 'ElectricitySupplier') navigate(`/electricity-supplier-dashboard/${userId}`);
+                if (role === 'ElectricitySupplier') navigate(`/company-selection/${userId}`);
             
             
             } else {

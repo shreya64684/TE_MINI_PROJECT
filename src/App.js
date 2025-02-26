@@ -21,9 +21,9 @@ import AddGoodsAndServices from "./components/AddGoodsAndServices";
 import LogisticsDashboard from "./components/Dashboard/LogisticsDashboard";
 import CompanySelection from "./components/CompanySelection";
 import ipfs from './ipfs'
-
-
 import Report from "./pages/Report";
+import ElectricityDashboard from "./components/Dashboard/ElectricityDashboard";
+import VerificationStatus from "./components/VerificationStatus";
 
 function App() {
   const location = useLocation();
@@ -33,6 +33,7 @@ function App() {
     "/raw-material-dashboard",
     "/fuel-dashboard",
     "/goods-supplier-dashboard",
+    "/electricity-supplier-dashboard"
   ];
   // Function to determine if the current route is a dashboard route
   const isDashboardRoute = () => {
@@ -49,13 +50,14 @@ function App() {
           <Route path="/register" element={<Register/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/reports" element={<Report/>}/>
-          <Route path="/company-selection" element={<CompanySelection/>} />
+          <Route path="/company-selection/:userId" element={<CompanySelection/>} />
           <Route path="/company-dashboard/:userId/*" element={<CompanyDashboard />} >
             <Route path="add-electricity" element={<AddElectricity />} />
             <Route path="add-co2-emissions" element={<AddCO2Emissions />} />
             <Route path="add-raw-material" element={<AddRawMaterialData />} />
             <Route path="add-goods" element={<AddGoodsAndServices/>} />
             <Route path="add-fuel" element={<AddFuelData/>} />
+            <Route path="verification-status" element={<VerificationStatus/>}/>
           {/* Add more dashboard routes here */}
         </Route>
         <Route path="/goods-supplier-dashboard/:userId/*" element={<GoodsSupplierDashboard />} >
@@ -75,6 +77,8 @@ function App() {
             <Route path="add-transportation" element={<AddFuelData/>} />
           {/* Add more dashboard routes here */}
         </Route>
+        <Route path="/electricity-supplier-dashboard/:userId/" element={<ElectricityDashboard/>}/>
+            
         </Routes>
         {!isDashboardRoute() && <Foot />}
        
