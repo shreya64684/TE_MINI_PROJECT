@@ -14,6 +14,7 @@ const Registration = () => {
         e.preventDefault();
 
         const userData = { username, email, password, role: userType };
+        console.log('Sending user data:', userData); // Debugging
 
         try {
             const response = await fetch('http://localhost:5000/api/auth/register', { // Adjust the URL according to your setup
@@ -143,7 +144,6 @@ const Registration = () => {
                         </div>
                         <button
                             type="submit"
-                            href="/register"
                             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                         >
                             Register
@@ -152,7 +152,7 @@ const Registration = () => {
                     <p className="text-center text-sm text-gray-600">
                         Already have an account? {" "}
                         <Link to="/login"><a href="/register" className="text-blue-500 hover:underline">
-                            Sign up
+                            Login
                         </a></Link>
                     </p>
                 </div>
