@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { initializeWeb3, getContractInstance } from '../utils/web3Setup';
+import DragDropFileUpload from '../components/UI/DragDropFileUpload';
+import DocumentationSidebar from '../components/UI/DocumentationSidebar';
 
 const AddElectricity = () => {
     const { userId } = useParams();
@@ -18,7 +20,7 @@ const AddElectricity = () => {
     // Handle file selection
     const handleFileChange = (e) => {
         console.log("File Selected");
-        
+
         setFile(e.target.files[0]);
     };
 
@@ -32,7 +34,7 @@ const AddElectricity = () => {
         try {
             const { web3, contract } = await initializeWeb3();
             const accounts = await web3.eth.getAccounts();
-            
+
             await contract.methods
                 .addElectricityData(
                     formData.date,
@@ -85,14 +87,14 @@ const AddElectricity = () => {
             if (!res.ok) {
                 throw new Error('Failed to upload file to Pinata');
             }
-    
+
             const data = await res.json();
             console.log(data);
             const fileURL = 'https://gateway.pinata.cloud/ipfs/' + data.IpfsHash;
             setFileURL(fileURL);
             console.log(fileURL);
             return data.IpfsHash;
-            
+
         } catch (error) {
             console.error("Error uploading file to Pinata:", error);
             throw error;
@@ -122,7 +124,7 @@ const AddElectricity = () => {
             const data = await response.json();
             console.log(data);
             if (response.ok) {
-                 // Store data on blockchain
+                // Store data on blockchain
                 await addElectricityDataToBlockchain(formData.date, formData.totalElectricityConsumedMWH, billHash);
                 setSuccessMessage('Electricity data successfully added.');
                 setErrorMessage('');
@@ -173,6 +175,7 @@ const AddElectricity = () => {
                         placeholder="e.g., 120"
                     />
                 </div>
+
                 <div>
                     <label className="block text-gray-600">Electricity Bill</label>
                     <input
@@ -183,6 +186,9 @@ const AddElectricity = () => {
                         className="w-full p-3 border border-gray-300 rounded-md"
                         placeholder="Link or path to bill (optional)"
                     />
+                </div>
+                <div>
+                    <DragDropFileUpload />
                 </div>
                 <button
                     type="submit"

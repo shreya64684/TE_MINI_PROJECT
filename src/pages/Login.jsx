@@ -52,7 +52,7 @@ const Login = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-green-200">
+        <div className="flex items-center justify-center min-h-screen bg-green-200 bg--200">
             {/* <form onSubmit={handleSubmit} className='flex max-w-md flex-col gap-6 justify-center p-6 bg-white shadow-md rounded-lg'>
                 <h2 className="text-2xl font-semibold text-center text-emerald-700 mb-4">Login</h2>
                 {error && <div className="mb-4 text-red-500">{error}</div>}

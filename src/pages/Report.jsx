@@ -1,5 +1,6 @@
 import React from 'react'
 import ScoreCard from '../components/ScoreCard';
+import GaugeMeter from '../components/UI/GaugeMeter';
 
 const Report = () => {
     const sampleReportData = {
@@ -26,14 +27,15 @@ const Report = () => {
     const { electricity, fuel, rawMaterial, waste, goods, totalCO2 } = sampleReportData;
     return (
         <div>
-            {/* <div className="bg-gray-100  flex justify-center py-10">
-                <div className="bg-white shadow-lg rounded-lg border border-gray-300 max-w-5xl w-full p-8">
-                    <header className="text-center border-b border-gray-300 pb-4 mb-6">
-                        <h1 className="text-2xl font-bold text-gray-700">Carbon Footprint Report</h1>
+            <div className="bg-gray-100  flex justify-center py-2">
+                <div className="bg-white shadow-lg rounded-lg border border-gray-300 max-w-5xl w-full">
+                    <header className="text-center border-b border-gray-300 pb-4 mb-2">
+                        {/* <h1 className="text-2xl font-bold text-gray-700">Carbon Footprint Report</h1> */}
                         <p className="text-sm text-gray-500">Generated from IPFS Data</p>
                     </header>
                 </div>
-            </div> */}
+            </div>
+
 
             {/* <div className="bg-gray-100 min-h-screen p-6">
                 <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-8">
@@ -126,6 +128,14 @@ const Report = () => {
                         </button>
                     </div>
                 </div>
+                <div className="flex justify-center items-center h-[40vh] bg-gray-100">
+                    <div className="p-4 bg-white shadow-lg rounded-lg">
+                        <h2 className="text-xl font-semibold text-center mb-2">
+                            Carbon Credit Score
+                        </h2>
+                        <GaugeMeter percentage={81} />
+                    </div>
+                </div>
 
                 {/* Cards Section */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -136,17 +146,17 @@ const Report = () => {
                 </div>
 
                 {/* Recent Activity Table */}
-                <div className="bg-white p-6 mt-6 rounded-lg shadow-md">
+                <div className="bg-white p-2 mt-2 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold text-gray-900 mb-4">Electricity Data 📑</h2>
                     <table className="w-full border-collapse">
                         <thead>
                             <tr className="bg-gray-100 text-gray-700">
                                 <th className="p-3 text-left">Date</th>
-                                <th className="p-3 text-left">Electricity Consumed (MWh)</th>
+                                <th className="p-3 text-left">Value</th>
                                 <th className="p-3 text-left">Category</th>
                                 <th className="p-3 text-left">Conversion Factor</th>
                                 <th className="p-3 text-left">CO₂ Equivalent (kg)</th>
-                                <th className="p-3 text-left">Status</th>
+                                {/* <th className="p-3 text-left">Status</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -166,7 +176,7 @@ const Report = () => {
                                             <td className="p-3">{item.category}</td>
                                             <td className="p-3">{item.conversionFactor}</td>
                                             <td className="p-3">{item.co2Equivalent}</td>
-                                            <td className="p-3">
+                                            {/* <td className="p-3">
                                                 <span
                                                     className={`px-3 py-1 rounded-full text-white text-sm ${item.status === "Verified"
                                                         ? "bg-green-500"
@@ -179,12 +189,13 @@ const Report = () => {
                                                 >
                                                     {item.status}
                                                 </span>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     ))}
                         </tbody>
                     </table>
                 </div>
+
             </div>
 
         </div>

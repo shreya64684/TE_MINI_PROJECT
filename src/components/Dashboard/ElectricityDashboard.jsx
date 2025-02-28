@@ -5,6 +5,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { FaPlus, FaIndustry, FaTrash, FaUserCircle } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { initializeWeb3, getContractInstance, getWeb3Instance, switchToGanacheNetwork } from '../../utils/web3Setup';
+import DocumentationSidebar from '../../components/UI/DocumentationSidebar';
 
 const ElectricityDashboard = () => {
     const [successMessage, setSuccessMessage] = useState('');
@@ -34,7 +35,7 @@ const ElectricityDashboard = () => {
                 const data = await response.json();
                 console.log("Data:", data)
                 console.log("Electricity Data:", data.electricityData);
-                
+
 
                 if (response.ok) {
                     setElectricityData(data.electricityData); // Adjust key as per your API
@@ -66,7 +67,7 @@ const ElectricityDashboard = () => {
     const addElectricityDataToBlockchain = async (data) => {
         console.log('Data being sent to blockchain in blockchain function:', data);
 
-    // Validate required fields
+        // Validate required fields
         const consumption = parseInt(data.consumption); // Ensure it's a number
         console.log("Consumption: ", consumption);
         const billHash = data.billHash; // Ensure it's a valid string
@@ -74,8 +75,8 @@ const ElectricityDashboard = () => {
         const timestamp = String(Math.floor(Date.now() / 1000));
         console.log("Timestamp: ", timestamp);
 
-        
-        if (!consumption || !billHash ) {
+
+        if (!consumption || !billHash) {
             throw new Error(
                 `Missing or Invalid data: 
                 totalElectricityConsumedMWH: ${consumption}, 
@@ -98,9 +99,9 @@ const ElectricityDashboard = () => {
             // Get Web3 and Contract instances
             const web3 = getWeb3Instance();
             const contract = getContractInstance();
-            console.log("Web, Contract: " , web3, contract);
+            console.log("Web, Contract: ", web3, contract);
             // const { web3, contract } = await initializeWeb3();
-           
+
             const accounts = await web3.eth.getAccounts();
             if (accounts.length === 0) {
                 throw new Error("No accounts found. Ensure MetaMask is unlocked and connected to the correct network.");
@@ -108,19 +109,19 @@ const ElectricityDashboard = () => {
             console.log('Using account:', accounts[0]);
             console.log("Account Balance:", await web3.eth.getBalance(accounts[0]));
             // Ensure that all data is present
-            console.log("Sending data in bc fun:",  {  
+            console.log("Sending data in bc fun:", {
                 billHash,
                 consumption,
                 timestamp,
             });
 
             const transactionReceipt = await contract.methods
-            .addElectricityData(billHash, consumption, timestamp)
-            .send({ from: accounts[0] });
+                .addElectricityData(billHash, consumption, timestamp)
+                .send({ from: accounts[0] });
 
             console.log('Transaction Receipt:', transactionReceipt);
-               
-    
+
+
             console.log('Electricity data successfully added to blockchain!');
         } catch (error) {
             console.error('Failed to add data to blockchain.', error);
@@ -128,135 +129,135 @@ const ElectricityDashboard = () => {
         }
     };
 
-   const handleVerify = async (data) => {
-    console.log('Verifying data:', data);
-    try {
-        const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/verify`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ date: data.date }), // Send the unique identifier
-        });
+    const handleVerify = async (data) => {
+        console.log('Verifying data:', data);
+        try {
+            const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/verify`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ date: data.date }), // Send the unique identifier
+            });
 
-        if (response.ok) {
-           
-            setSuccessMessage('Data verified successfully!');
-            setErrorMessage('');
-            // Refresh the data to reflect changes
-            setElectricityData((prevData) =>
-                prevData.map((item) =>
-                    item.date === data.date ? { ...item, verified: true } : item
-                )
-            );
-            console.log("Verified Data: ", data);
-        } else {
-            const data = await response.json();
-            setErrorMessage(data.message || 'Failed to verify data');
+            if (response.ok) {
+
+                setSuccessMessage('Data verified successfully!');
+                setErrorMessage('');
+                // Refresh the data to reflect changes
+                setElectricityData((prevData) =>
+                    prevData.map((item) =>
+                        item.date === data.date ? { ...item, verified: true } : item
+                    )
+                );
+                console.log("Verified Data: ", data);
+            } else {
+                const data = await response.json();
+                setErrorMessage(data.message || 'Failed to verify data');
+            }
+        } catch (error) {
+            setErrorMessage('Error verifying data');
+            console.error(error);
         }
-    } catch (error) {
-        setErrorMessage('Error verifying data');
-        console.error(error);
-    }
-};
+    };
 
-const handleReject = async (data, remark) => {
-    console.log('Rejecting data with remark:', remark);
-    try {
-        const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/reject`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ date: data.date, remark }), // Send the unique identifier and remark
-        });
+    const handleReject = async (data, remark) => {
+        console.log('Rejecting data with remark:', remark);
+        try {
+            const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/reject`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ date: data.date, remark }), // Send the unique identifier and remark
+            });
 
-        if (response.ok) {
-            setSuccessMessage('Data rejected successfully!');
-            setErrorMessage('');
-            // Update the data with rejection status and remark
-            setElectricityData((prevData) =>
-                prevData.map((item) =>
-                    item.date === data.date ? { ...item, verified: false, remark } : item
-                )
-            );
-        } else {
-            const responseData = await response.json();
-            setErrorMessage(responseData.message || 'Failed to reject data');
+            if (response.ok) {
+                setSuccessMessage('Data rejected successfully!');
+                setErrorMessage('');
+                // Update the data with rejection status and remark
+                setElectricityData((prevData) =>
+                    prevData.map((item) =>
+                        item.date === data.date ? { ...item, verified: false, remark } : item
+                    )
+                );
+            } else {
+                const responseData = await response.json();
+                setErrorMessage(responseData.message || 'Failed to reject data');
+            }
+        } catch (error) {
+            setErrorMessage('Error rejecting data');
+            console.error(error);
         }
-    } catch (error) {
-        setErrorMessage('Error rejecting data');
-        console.error(error);
-    }
-};
+    };
 
 
-const handleAccept = async (data) => {
-    console.log('Data sent to blockchain or initially in accept function:', data);
+    const handleAccept = async (data) => {
+        console.log('Data sent to blockchain or initially in accept function:', data);
 
-    if (!data.totalElectricityConsumedMWH || !data.electricityBill) {
-        setErrorMessage("Incomplete data. Please ensure all fields are provided in accept function in accept.");
-        return;
-    }
-
-    try {
-
-        // Convert date to timestamp and consumption to an integer
-        const timestamp = Math.floor(new Date(data.date).getTime() / 1000); // Convert to seconds
-        const consumption = Math.round(Number(data.totalElectricityConsumedMWH)); // Convert to integer
-
-        // Ensure converted values are valid
-        if (isNaN(timestamp) || isNaN(consumption)) {
-            setErrorMessage('Invalid data format. Check consumption or date.');
+        if (!data.totalElectricityConsumedMWH || !data.electricityBill) {
+            setErrorMessage("Incomplete data. Please ensure all fields are provided in accept function in accept.");
             return;
         }
 
-        console.log('Data being sent to blockchain before await : ', {
-            consumption,
-            billHash: data.electricityBill, // Assuming it's an IPFS hash
-            timestamp,
-        });
+        try {
 
-        await addElectricityDataToBlockchain({
-            consumption,
-            billHash: data.electricityBill,
-            timestamp,
-        });
+            // Convert date to timestamp and consumption to an integer
+            const timestamp = Math.floor(new Date(data.date).getTime() / 1000); // Convert to seconds
+            const consumption = Math.round(Number(data.totalElectricityConsumedMWH)); // Convert to integer
 
-        const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/accept`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ date: data.date }),
-        });
+            // Ensure converted values are valid
+            if (isNaN(timestamp) || isNaN(consumption)) {
+                setErrorMessage('Invalid data format. Check consumption or date.');
+                return;
+            }
 
-        if (response.ok) {
-                    
-            // console.log('Data being sent to blockchain in accept:', data);
-            setSuccessMessage('Data accepted successfully!');
-            setElectricityData((prevData) =>
-                prevData.map((item) =>
-                    item.date === data.date ? { ...item, accepted: true } : item
-                )
-            );
-            setErrorMessage('');
-        } else {
-            const responseData = await response.json();
-            setErrorMessage(responseData.message || 'Failed to accept data');
+            console.log('Data being sent to blockchain before await : ', {
+                consumption,
+                billHash: data.electricityBill, // Assuming it's an IPFS hash
+                timestamp,
+            });
+
+            await addElectricityDataToBlockchain({
+                consumption,
+                billHash: data.electricityBill,
+                timestamp,
+            });
+
+            const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/accept`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ date: data.date }),
+            });
+
+            if (response.ok) {
+
+                // console.log('Data being sent to blockchain in accept:', data);
+                setSuccessMessage('Data accepted successfully!');
+                setElectricityData((prevData) =>
+                    prevData.map((item) =>
+                        item.date === data.date ? { ...item, accepted: true } : item
+                    )
+                );
+                setErrorMessage('');
+            } else {
+                const responseData = await response.json();
+                setErrorMessage(responseData.message || 'Failed to accept data');
+            }
+        } catch (error) {
+            setErrorMessage('Error accepting data');
+            console.error(error);
         }
-    } catch (error) {
-        setErrorMessage('Error accepting data');
-        console.error(error);
-    }
-};
+    };
 
 
-  return (
-    <div>
+    return (
+        <div>
             <div className="flex h-screen bg-gray-100">
                 {/* Sidebar */}
                 <aside className="w-64 bg-white shadow-lg">
@@ -300,7 +301,7 @@ const handleAccept = async (data) => {
                                         Bill:{' '}
                                         <a
                                             // href={`https://ipfs.io/ipfs/${data.electricityBill}`}  
-                                           href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
+                                            href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-500 underline"
@@ -309,18 +310,17 @@ const handleAccept = async (data) => {
                                         </a>
                                     </p>
                                     <img className='w-[300px] h-auto'
-                                    // src={`https://ipfs.io/ipfs/${data.electricityBill}`}
-                                    href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
+                                        // src={`https://ipfs.io/ipfs/${data.electricityBill}`}
+                                        href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
                                     // src="/public/bill.png"
                                     ></img>
                                     <button
                                         onClick={() => handleVerify(data)}
                                         disabled={data.verified && data.accepted}
-                                        className={`mt-2 px-3 py-1 rounded-md ${
-                                        data.verified 
-                                        ? 'bg-gray-400 cursor-not-allowed'
-                                        : 'bg-green-500 text-white hover:bg-green-600'
-                                        }`}
+                                        className={`mt-2 px-3 py-1 rounded-md ${data.verified
+                                            ? 'bg-gray-400 cursor-not-allowed'
+                                            : 'bg-green-500 text-white hover:bg-green-600'
+                                            }`}
                                     >
                                         {data.verified ? 'Verified' : 'Verify'}
                                     </button>
@@ -330,7 +330,7 @@ const handleAccept = async (data) => {
                                         onChange={(e) => setRemark(e.target.value)}
                                         className="px-3 py-1 ml-2 rounded-md  mt-1 mb-[-7px]"
                                     />
-                                    <button 
+                                    <button
                                         onClick={() => handleReject(data, remark)}
                                         className="px-3 py-1 ml-2 rounded-md bg-green-500 text-white hover:bg-green-600"
                                     >
@@ -339,14 +339,13 @@ const handleAccept = async (data) => {
                                     <button
                                         onClick={() => handleAccept(data)}
                                         disabled={!data.verified || data.accepted}
-                                        className={`px-3 py-1 ml-2 rounded-md ${
-                                            data.accepted
+                                        className={`px-3 py-1 ml-2 rounded-md ${data.accepted
                                             ? 'bg-gray-400 cursor-not-allowed'
                                             : 'bg-green-500 text-white hover:bg-green-600'
-                                        }`}
+                                            }`}
                                     >
                                         {data.accepted ? 'Accepted' : 'Accept'}
-                                  </button>
+                                    </button>
 
                                 </li>
                             ))}
@@ -357,7 +356,7 @@ const handleAccept = async (data) => {
                 </div>
             </div>
         </div>
-  )
+    )
 }
 
 export default ElectricityDashboard
