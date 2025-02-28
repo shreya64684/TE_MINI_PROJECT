@@ -146,7 +146,7 @@ const AddElectricity = () => {
     };
 
     return (
-        <div className="p-6 bg-white rounded-lg shadow-md">
+        <div className="flex-1 p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">Add Electricity Data</h2>
             {successMessage && <div className="mb-4 text-green-600">{successMessage}</div>}
             {errorMessage && <div className="mb-4 text-red-600">{errorMessage}</div>}
@@ -198,6 +198,55 @@ const AddElectricity = () => {
                 </button>
             </form>
         </div>
+        // <main className="flex-1 p-8">
+        //     <div className="max-w-7xl mx-auto bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+        //         <h2 className="text-xl font-semibold mb-4 text-gray-700">Add Electricity Data</h2>
+
+        //         <form onSubmit={handleSubmit} className="space-y-4">
+
+        //             <div>
+        //                 <label className="text-gray-600 text-sm font-medium">Electricity Consumption (kWh)</label>
+        //                 <input
+        //                     type="number"
+        //                     name="totalElectricityConsumedMWH"
+        //                     value={formData.totalElectricityConsumedMWH}
+        //                     onChange={(e) => setFormData({ ...formData, totalElectricityConsumedMWH: e.target.value })}
+        //                     required
+        //                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+        //                     placeholder="Enter Consumption"
+        //                 />
+        //             </div>
+
+        //             <div>
+        //                 <label className="text-gray-600 text-sm font-medium">Billing Date</label>
+        //                 <input
+        //                     type="date"
+        //                     value={formData.date}
+        //                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+        //                     required
+        //                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+        //                 />
+        //             </div>
+
+        //             <div>
+        //                 <label className="text-gray-600 text-sm font-medium">Upload Bill</label>
+        //                 <input
+        //                     type="file"
+        //                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+        //                 />
+        //             </div>
+        //             <div>
+        //                 <DragDropFileUpload />
+        //             </div>
+        //             <button
+        //                 type="submit"
+        //                 className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-200"
+        //             >
+        //                 Submit Data
+        //             </button>
+        //         </form>
+        //     </div>
+        // </main>
     );
 };
 

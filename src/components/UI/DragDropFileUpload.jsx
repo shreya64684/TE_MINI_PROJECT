@@ -12,7 +12,7 @@ const DragDropFileUpload = () => {
     <div className="flex justify-center items-center h-[50vh] bg-green-200">
       <div className="bg-white p-6 rounded-lg shadow-md w-[500px]">
         <h2 className="text-xl font-semibold text-center mb-4">
-          React Drop Files Input
+          Files Input
         </h2>
         <div
           {...getRootProps()}

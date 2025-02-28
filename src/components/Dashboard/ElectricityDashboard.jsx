@@ -2,7 +2,8 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { FaPlus, FaIndustry, FaTrash, FaUserCircle } from 'react-icons/fa';
+import { ChevronRight, ChevronDown, Search, Book, LogOut, Settings } from "lucide-react";
+import { FaPlus, FaIndustry, FaTrash, FaUserCircle, FaCog, FaBell } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { initializeWeb3, getContractInstance, getWeb3Instance, switchToGanacheNetwork } from '../../utils/web3Setup';
 import DocumentationSidebar from '../../components/UI/DocumentationSidebar';
@@ -18,6 +19,8 @@ const ElectricityDashboard = () => {
     const [web3Initialized, setWeb3Initialized] = useState(false);
     // Add remark state for the verifier
     const [remark, setRemark] = useState('');
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+
 
     const handleLogout = () => {
         // Clear the token and any other user data from local storage
@@ -257,39 +260,58 @@ const ElectricityDashboard = () => {
 
 
     return (
-        <div>
-            <div className="flex h-screen bg-gray-100">
+        <div className='flex'>
+            <div className="flex h-full w-full bg-gray-100 p-4">
                 {/* Sidebar */}
-                <aside className="w-64 bg-white shadow-lg">
-                    <div className="px-6 py-8">
-                        <h2 className="text-2xl font-bold text-emerald-600">Electricity Supplier Dashboard</h2>
+                <aside className="fixed top-3 left-3 h-[100vh] w-64 p-4 rounded-lg bg-green-100 shadow-lg flex flex-col justify-between">
+                    <div className="flex items-center space-x-2 text-lg font-semibold">
+                        <Book className="text-gray-700" />
+                        <span>Electricity Supplier Dashboard</span>
                     </div>
-                    <nav className="mt-10">
-                        <ul>
-                            {/* Add Sidebar Options Here */}
-                        </ul>
-                    </nav>
+                    
+                    {/* Profile Dropdown */}
+                    <div className="relative">
+                        <button
+                            className="flex items-center w-full p-3 rounded-lg hover:bg-gray-800 hover:text-white"
+                            onClick={() => setIsProfileOpen(!isProfileOpen)}
+                        >
+                            <FaUserCircle className="text-gray-700 w-8 h-8 mr-3" />
+                            <div className="text-left">
+                                <p className="text-sm font-medium">Supplier Profile</p>
+                                <p className="text-xs text-gray-500">ES1@gmail.com</p>
+                            </div>
+                            <ChevronDown className="ml-auto text-gray-500 w-4 h-4" />
+                        </button>
+
+                        {isProfileOpen && (
+                            <div className="absolute bottom-12 w-full bg-white shadow-lg rounded-lg border border-gray-200">
+                                <div className="p-3">
+                                    <div className="flex items-center space-x-2">
+                                        <FaUserCircle className="text-gray-700 w-8 h-8" />
+                                        <div>
+                                            <p className="text-sm font-medium">Supplier Profile</p>
+                                            <p className="text-xs text-gray-500">ES1@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <button className="flex items-center w-full p-3 rounded-lg  hover:bg-gray-100">
+                                    <FaCog className="w-5 h-5 mr-2" /> Account
+                                </button>
+                                <button className="flex items-center w-full p-3 rounded-lg  hover:bg-gray-100">
+                                    <FaBell className="w-5 h-5 mr-2" /> Notifications
+                                </button>
+                                <button onClick={handleLogout}
+                                    className="flex items-center w-full p-3 rounded-lg  text-red-600 hover:bg-gray-800 hover:text-white">
+                                    <LogOut className="w-5 h-5 mr-2" /> Log out
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </aside>
 
-                {/* Main Content Area */}
-                <div className="flex-1 p-8">
-                    {/* Profile and Header */}
-                    <div className="flex justify-between items-center mb-8">
-                        <h1 className="text-3xl font-semibold text-gray-700">Dashboard Overview</h1>
-                        <button
-                            onClick={handleLogout}
-                            className="mt-4 py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-200"
-                        >
-                            Logout
-                        </button>
-                        <div className="flex items-center space-x-4">
-                            <FaUserCircle className="text-3xl text-gray-500" />
-                            <span className="text-lg text-gray-700">Electricity Supplier Profile</span>
-                        </div>
-                    </div>
-
-                    {/* Electricity Data Section */}
-                    <div className="p-6">
+                {/* Electricity Data Section */}
+                {/* <div className="flex-1 p-6">
                         <h2 className="text-2xl font-semibold mb-4">Electricity Supplier Dashboard</h2>
                         {error && <p className="text-red-500">{error}</p>}
                         <ul className="list-none ml-5">
@@ -352,8 +374,84 @@ const ElectricityDashboard = () => {
                         </ul>
                         {successMessage && <p className="text-green-500">{successMessage}</p>}
                         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+                    </div> */}
+
+                <div className="ml-72 flex-1 max-w-7xl p-6 bg-white rounded-lg min-h-screen">
+                    <h2 className="text-2xl font-bold mb-4">Electricity Supplier Dashboard</h2>
+                    <div className="overflow-x-auto">
+                        <table className="w-full bg-white shadow-md rounded-lg">
+                            <thead>
+                                <tr className="bg-gray-200 text-left">
+                                    <th className="p-3">Date</th>
+                                    <th className="p-3">Electricity Consumed</th>
+                                    <th className="p-3">Bill</th>
+                                    <th className="p-3">Remark</th>
+                                    <th className="p-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {electricityData.map((data) => (
+                                    <tr key={data.id} className="border-b hover:bg-gray-100">
+                                        <td className="p-3">{new Date(data.date).toLocaleDateString()}</td>
+                                        <td className="p-3">{data.totalElectricityConsumedMWH}</td>
+                                        <td className="p-3 text-blue-600 cursor-pointer">
+                                            <a
+                                                // href={`https://ipfs.io/ipfs/${data.electricityBill}`}  
+                                                href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-500 underline"
+                                            >
+                                                View Bill
+                                            </a></td>
+                                        <td className="p-3">
+                                            <textarea
+                                                placeholder="Enter remark"
+                                                value={remark}
+                                                onChange={(e) => setRemark(e.target.value)}
+                                                className="px-3 py-1 ml-2 rounded-md  mt-1 mb-[-7px]"
+                                            />
+                                        </td>
+                                        <td className="p-3 flex gap-2">
+                                            {!data.verified ? (
+                                                <button
+                                                    onClick={() => handleVerify(data)}
+                                                    disabled={data.verified && data.accepted}
+                                                    className={`mt-2 px-3 py-1 rounded-md ${data.verified
+                                                        ? 'bg-gray-400 cursor-not-allowed'
+                                                        : 'bg-green-500 text-white hover:bg-green-600'
+                                                        }`} >
+                                                    {data.verified ? 'Verified' : 'Verify'}
+                                                </button>
+                                            ) : (
+                                                <button className="px-4 py-2 bg-gray-400 text-white rounded-md cursor-not-allowed">
+                                                    Verified
+                                                </button>
+                                            )}
+                                            <button
+                                                onClick={() => handleReject(data, remark)}
+                                                className="px-3 py-1 ml-2 rounded-md bg-green-500 text-white hover:bg-green-600"
+                                            >
+                                                Reject with Remark
+                                            </button>
+                                            <button
+                                                onClick={() => handleAccept(data)}
+                                                disabled={!data.verified || data.accepted}
+                                                className={`px-3 py-1 ml-2 rounded-md ${data.accepted
+                                                    ? 'bg-gray-400 cursor-not-allowed'
+                                                    : 'bg-green-500 text-white hover:bg-green-600'
+                                                    }`}
+                                            >
+                                                {data.accepted ? 'Accepted' : 'Accept'}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                {/* </div> */}
             </div>
         </div>
     )

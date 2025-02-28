@@ -38,7 +38,7 @@ const CompanyDashboard = () => {
 
     // Render company-specific dashboard data
     return (
-        <div className="flex h-screen bg-gray-100 ">
+        <div className="flex-1 h-full bg-gray-100 ">
             {/* Sidebar */}
             {/* <aside className="w-64 bg-white shadow-lg">
                 <div className="px-6 py-8">
@@ -119,23 +119,16 @@ const CompanyDashboard = () => {
             <DocumentationSidebar />
 
             {/* Main Content Area */}
-            <div className="flex-1 p-8">
+            <div className="ml-72 flex-1 p-8">
                 {/* Profile and Content Area */}
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-semibold text-gray-700">Dashboard Overview</h1>
-                    <button
-                        onClick={handleLogout}
-                        className='mt-4 py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-200'>
-                        Logout
-                    </button>
-                    <div className="flex items-center space-x-4">
-                        <FaUserCircle className="text-3xl text-gray-500" />
-                        <span className="text-lg text-gray-700">Company Profile</span>
-                    </div>
                 </div>
 
                 {/* Outlet to render content based on selected sidebar option */}
                 <Outlet />
+                {/* Main Content (Form beside Sidebar) */}
+                
             </div>
         </div>
     );
