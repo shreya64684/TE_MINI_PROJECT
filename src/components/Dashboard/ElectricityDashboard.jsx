@@ -34,7 +34,7 @@ const ElectricityDashboard = () => {
                 const data = await response.json();
                 console.log("Data:", data)
                 console.log("Electricity Data:", data.electricityData);
-                
+
 
                 if (response.ok) {
                     setElectricityData(data.electricityData); // Adjust key as per your API
@@ -66,7 +66,7 @@ const ElectricityDashboard = () => {
     const addElectricityDataToBlockchain = async (data) => {
         console.log('Data being sent to blockchain in blockchain function:', data);
 
-    // Validate required fields
+        // Validate required fields
         const consumption = parseInt(data.consumption); // Ensure it's a number
         console.log("Consumption: ", consumption);
         const billHash = data.billHash; // Ensure it's a valid string
@@ -74,8 +74,8 @@ const ElectricityDashboard = () => {
         const timestamp = String(Math.floor(Date.now() / 1000));
         console.log("Timestamp: ", timestamp);
 
-        
-        if (!consumption || !billHash ) {
+
+        if (!consumption || !billHash) {
             throw new Error(
                 `Missing or Invalid data: 
                 totalElectricityConsumedMWH: ${consumption}, 
@@ -98,9 +98,9 @@ const ElectricityDashboard = () => {
             // Get Web3 and Contract instances
             const web3 = getWeb3Instance();
             const contract = getContractInstance();
-            console.log("Web, Contract: " , web3, contract);
+            console.log("Web, Contract: ", web3, contract);
             // const { web3, contract } = await initializeWeb3();
-           
+
             const accounts = await web3.eth.getAccounts();
             if (accounts.length === 0) {
                 throw new Error("No accounts found. Ensure MetaMask is unlocked and connected to the correct network.");
@@ -108,256 +108,343 @@ const ElectricityDashboard = () => {
             console.log('Using account:', accounts[0]);
             console.log("Account Balance:", await web3.eth.getBalance(accounts[0]));
             // Ensure that all data is present
-            console.log("Sending data in bc fun:",  {  
+            console.log("Sending data in bc fun:", {
                 billHash,
                 consumption,
                 timestamp,
             });
 
+
+
             const transactionReceipt = await contract.methods
-            .addElectricityData(billHash, consumption, timestamp)
-            .send({ from: accounts[0] });
+                .addElectricityData( consumption, billHash, timestamp)
+                .send({ from: accounts[0] });
 
             console.log('Transaction Receipt:', transactionReceipt);
-               
-    
+
             console.log('Electricity data successfully added to blockchain!');
+
         } catch (error) {
             console.error('Failed to add data to blockchain.', error);
             throw error; // Propagate the error to handle in handleVerify
         }
     };
 
-   const handleVerify = async (data) => {
-    console.log('Verifying data:', data);
-    try {
-        const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/verify`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ date: data.date }), // Send the unique identifier
-        });
 
-        if (response.ok) {
-           
-            setSuccessMessage('Data verified successfully!');
-            setErrorMessage('');
-            // Refresh the data to reflect changes
-            setElectricityData((prevData) =>
-                prevData.map((item) =>
-                    item.date === data.date ? { ...item, verified: true } : item
-                )
-            );
-            console.log("Verified Data: ", data);
-        } else {
-            const data = await response.json();
-            setErrorMessage(data.message || 'Failed to verify data');
+
+    // **Function to update UI dynamically**
+    const updateElectricityUI = ({ consumption, co2Equivalent, transactionHash }) => {
+        document.getElementById('electricity-consumption').innerText = `Consumption: ${consumption} MWh`;
+        document.getElementById('co2-equivalent').innerText = `CO₂ Equivalent: ${co2Equivalent} tons`;
+        document.getElementById('transaction-hash').innerText = `Transaction Hash: ${transactionHash}`;
+    };
+
+
+
+    const handleVerify = async (data) => {
+        console.log('Verifying data:', data);
+        try {
+            const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/verify`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ date: data.date }), // Send the unique identifier
+            });
+
+            if (response.ok) {
+
+                setSuccessMessage('Data verified successfully!');
+                setErrorMessage('');
+                // Refresh the data to reflect changes
+                setElectricityData((prevData) =>
+                    prevData.map((item) =>
+                        item.date === data.date ? { ...item, verified: true } : item
+                    )
+                );
+                console.log("Verified Data: ", data);
+            } else {
+                const data = await response.json();
+                setErrorMessage(data.message || 'Failed to verify data');
+            }
+        } catch (error) {
+            setErrorMessage('Error verifying data');
+            console.error(error);
         }
-    } catch (error) {
-        setErrorMessage('Error verifying data');
-        console.error(error);
-    }
-};
+    };
 
-const handleReject = async (data, remark) => {
-    console.log('Rejecting data with remark:', remark);
-    try {
-        const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/reject`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ date: data.date, remark }), // Send the unique identifier and remark
-        });
+    const handleReject = async (data, remark) => {
+        console.log('Rejecting data with remark:', remark);
+        try {
+            const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/reject`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ date: data.date, remark }), // Send the unique identifier and remark
+            });
 
-        if (response.ok) {
-            setSuccessMessage('Data rejected successfully!');
-            setErrorMessage('');
-            // Update the data with rejection status and remark
-            setElectricityData((prevData) =>
-                prevData.map((item) =>
-                    item.date === data.date ? { ...item, verified: false, remark } : item
-                )
-            );
-        } else {
-            const responseData = await response.json();
-            setErrorMessage(responseData.message || 'Failed to reject data');
+            if (response.ok) {
+                setSuccessMessage('Data rejected successfully!');
+                setErrorMessage('');
+                // Update the data with rejection status and remark
+                setElectricityData((prevData) =>
+                    prevData.map((item) =>
+                        item.date === data.date ? { ...item, verified: false, remark } : item
+                    )
+                );
+            } else {
+                const responseData = await response.json();
+                setErrorMessage(responseData.message || 'Failed to reject data');
+            }
+        } catch (error) {
+            setErrorMessage('Error rejecting data');
+            console.error(error);
         }
-    } catch (error) {
-        setErrorMessage('Error rejecting data');
-        console.error(error);
-    }
-};
+    };
 
 
-const handleAccept = async (data) => {
-    console.log('Data sent to blockchain or initially in accept function:', data);
+    const handleAccept = async (data) => {
+        console.log('Data sent to blockchain or initially in accept function:', data);
 
-    if (!data.totalElectricityConsumedMWH || !data.electricityBill) {
-        setErrorMessage("Incomplete data. Please ensure all fields are provided in accept function in accept.");
-        return;
-    }
-
-    try {
-
-        // Convert date to timestamp and consumption to an integer
-        const timestamp = Math.floor(new Date(data.date).getTime() / 1000); // Convert to seconds
-        const consumption = Math.round(Number(data.totalElectricityConsumedMWH)); // Convert to integer
-
-        // Ensure converted values are valid
-        if (isNaN(timestamp) || isNaN(consumption)) {
-            setErrorMessage('Invalid data format. Check consumption or date.');
+        if (!data.totalElectricityConsumedMWH || !data.electricityBill) {
+            setErrorMessage("Incomplete data. Please ensure all fields are provided in accept function in accept.");
             return;
         }
 
-        console.log('Data being sent to blockchain before await : ', {
-            consumption,
-            billHash: data.electricityBill, // Assuming it's an IPFS hash
-            timestamp,
-        });
+        try {
 
-        await addElectricityDataToBlockchain({
-            consumption,
-            billHash: data.electricityBill,
-            timestamp,
-        });
+            // Convert date to timestamp and consumption to an integer
+            const timestamp = Math.floor(new Date(data.date).getTime() / 1000); // Convert to seconds
+            const consumption = Math.round(Number(data.totalElectricityConsumedMWH)); // Convert to integer
 
-        const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/accept`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ date: data.date }),
-        });
+            // Ensure converted values are valid
+            if (isNaN(timestamp) || isNaN(consumption)) {
+                setErrorMessage('Invalid data format. Check consumption or date.');
+                return;
+            }
 
-        if (response.ok) {
-                    
-            // console.log('Data being sent to blockchain in accept:', data);
-            setSuccessMessage('Data accepted successfully!');
-            setElectricityData((prevData) =>
-                prevData.map((item) =>
-                    item.date === data.date ? { ...item, accepted: true } : item
-                )
-            );
-            setErrorMessage('');
-        } else {
-            const responseData = await response.json();
-            setErrorMessage(responseData.message || 'Failed to accept data');
+            console.log('Data being sent to blockchain before await : ', {
+                consumption,
+                billHash: data.electricityBill, // Assuming it's an IPFS hash
+                timestamp,
+            });
+
+            await addElectricityDataToBlockchain({
+                consumption,
+                billHash: data.electricityBill,
+                timestamp,
+            });
+
+            const response = await fetch(`http://localhost:5000/api/company/${userId}/electricity-data/accept`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ date: data.date }),
+            });
+
+            if (response.ok) {
+
+                // console.log('Data being sent to blockchain in accept:', data);
+                setSuccessMessage('Data accepted successfully!');
+                setElectricityData((prevData) =>
+                    prevData.map((item) =>
+                        item.date === data.date ? { ...item, accepted: true } : item
+                    )
+                );
+                setErrorMessage('');
+            } else {
+                const responseData = await response.json();
+                setErrorMessage(responseData.message || 'Failed to accept data');
+            }
+        } catch (error) {
+            setErrorMessage('Error accepting data');
+            console.error(error);
         }
-    } catch (error) {
-        setErrorMessage('Error accepting data');
-        console.error(error);
-    }
-};
+    };
 
 
-  return (
-    <div>
-            <div className="flex h-screen bg-gray-100">
+    return (
+        <div>
+            <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
                 {/* Sidebar */}
-                <aside className="w-64 bg-white shadow-lg">
-                    <div className="px-6 py-8">
-                        <h2 className="text-2xl font-bold text-emerald-600">Electricity Supplier Dashboard</h2>
+                <aside className="w-64 bg-green-100 shadow-lg rounded-r-xl border border-gray-100">
+                    <div className="px-6 py-8 border-b border-gray-100" >
+                        <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+                            Electricity Supplier Dashboard
+                        </h2>
+                        <p className="mt-2 text-xs text-gray-500">Carbon Footprint Manager</p>
                     </div>
-                    <nav className="mt-10">
-                        <ul>
+                    <nav className="mt-10 px-4">
+                        <ul className="space-y-2">
                             {/* Add Sidebar Options Here */}
                         </ul>
                     </nav>
                 </aside>
 
                 {/* Main Content Area */}
-                <div className="flex-1 p-8">
+                <div className="flex-1 overflow-hidden flex flex-col">
                     {/* Profile and Header */}
-                    <div className="flex justify-between items-center mb-8">
-                        <h1 className="text-3xl font-semibold text-gray-700">Dashboard Overview</h1>
-                        <button
-                            onClick={handleLogout}
-                            className="mt-4 py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-200"
-                        >
-                            Logout
-                        </button>
+                    <div className="flex justify-between items-center py-4 px-8 bg-white shadow-sm">
+                        <h1 className="text-2xl font-semibold text-gray-800">Dashboard Overview</h1>
                         <div className="flex items-center space-x-4">
-                            <FaUserCircle className="text-3xl text-gray-500" />
-                            <span className="text-lg text-gray-700">Electricity Supplier Profile</span>
+                            <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-sm font-medium">
+                                Eco-Supplier
+                            </span>
+                            <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 flex items-center justify-center text-white">
+                                    <FaUserCircle className="text-xl" />
+                                </div>
+                                <span className="text-sm font-medium text-gray-700">Electricity Supplier Profile</span>
+                            </div>
+                            <button
+                                onClick={handleLogout}
+                                className="py-2 px-4 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition duration-200 shadow-sm"
+                            >
+                                Logout
+                            </button>
                         </div>
+
                     </div>
 
-                    {/* Electricity Data Section */}
-                    <div className="p-6">
-                        <h2 className="text-2xl font-semibold mb-4">Electricity Supplier Dashboard</h2>
-                        {error && <p className="text-red-500">{error}</p>}
-                        <ul className="list-none ml-5">
-                            {electricityData.map((data) => (
-                                <li key={data._id} className="mb-2">
-                                    <p>Date: {new Date(data.date).toLocaleDateString()}</p>
-                                    <p>Electricity Consumed: {data.totalElectricityConsumedMWH} MWH</p>
-                                    <p>
-                                        Bill:{' '}
-                                        <a
-                                            // href={`https://ipfs.io/ipfs/${data.electricityBill}`}  
-                                           href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-blue-500 underline"
-                                        >
-                                            View Bill
-                                        </a>
-                                    </p>
-                                    <img className='w-[300px] h-auto'
-                                    // src={`https://ipfs.io/ipfs/${data.electricityBill}`}
-                                    href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
-                                    // src="/public/bill.png"
-                                    ></img>
-                                    <button
-                                        onClick={() => handleVerify(data)}
-                                        disabled={data.verified && data.accepted}
-                                        className={`mt-2 px-3 py-1 rounded-md ${
-                                        data.verified 
-                                        ? 'bg-gray-400 cursor-not-allowed'
-                                        : 'bg-green-500 text-white hover:bg-green-600'
-                                        }`}
-                                    >
-                                        {data.verified ? 'Verified' : 'Verify'}
-                                    </button>
-                                    <textarea
-                                        placeholder="Enter remark"
-                                        value={remark}
-                                        onChange={(e) => setRemark(e.target.value)}
-                                        className="px-3 py-1 ml-2 rounded-md  mt-1 mb-[-7px]"
-                                    />
-                                    <button 
-                                        onClick={() => handleReject(data, remark)}
-                                        className="px-3 py-1 ml-2 rounded-md bg-green-500 text-white hover:bg-green-600"
-                                    >
-                                        Reject with Remark
-                                    </button>
-                                    <button
-                                        onClick={() => handleAccept(data)}
-                                        disabled={!data.verified || data.accepted}
-                                        className={`px-3 py-1 ml-2 rounded-md ${
-                                            data.accepted
-                                            ? 'bg-gray-400 cursor-not-allowed'
-                                            : 'bg-green-500 text-white hover:bg-green-600'
-                                        }`}
-                                    >
-                                        {data.accepted ? 'Accepted' : 'Accept'}
-                                  </button>
+                    {/* Content Area with Scrolling */}
+                    <div className="flex-1 overflow-y-auto p-6 bg-gray-200">
 
-                                </li>
-                            ))}
-                        </ul>
-                        {successMessage && <p className="text-green-500">{successMessage}</p>}
-                        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+                        {/* Electricity Data Section */}
+                        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                            <h2 className="text-xl font-semibold text-gray-800 mb-4">Electricity Supplier Dashboard</h2>
+                            {error && <p className="mb-4 p-3 rounded-lg bg-red-50 text-red-600 border-l-4 border-red-500">{error}</p>}
+                            
+                            <div className="space-y-6">
+                                {electricityData.map((data) => (
+                                    <div key={data._id} className="p-4 rounded-lg border border-gray-200 hover:border-emerald-200 transition-colors bg-white shadow-sm hover:shadow">
+                                        <div className="flex flex-col md:flex-row md:items-start gap-6">
+                                            <div className="flex-1">
+                                                <div className="flex items-center mb-3">
+                                                    <span className="inline-block px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-medium">
+                                                        {new Date(data.date).toLocaleDateString()}
+                                                    </span>
+                                                    {data.verified && (
+                                                        <span className="ml-2 inline-block px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                                                            Verified
+                                                        </span>
+                                                    )}
+                                                    {data.accepted && (
+                                                        <span className="ml-2 inline-block px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
+                                                            Accepted
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <p className="text-gray-700 font-medium">Electricity Consumed:</p>
+                                                        <p className="text-xl font-bold text-emerald-600">{data.totalElectricityConsumedMWH} MWH</p>
+                                                    </div>
+
+                                                    <div>
+                                                        <p className="text-gray-700 font-medium">Bill:</p>
+                                                        <a
+                                                            href={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-block mt-1 px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-md transition-colors text-sm"
+                                                        >
+                                                            View Bill
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex-shrink-0">
+                                                <img
+                                                    className="w-64 h-auto rounded-lg border border-gray-200 object-cover shadow-sm"
+                                                    src={`https://gateway.pinata.cloud/ipfs/${data.electricityBill}`}
+                                                    alt="Electricity Bill"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-4 flex flex-wrap items-center gap-3">
+                                            <button
+                                                onClick={() => handleVerify(data)}
+                                                disabled={data.verified && data.accepted}
+                                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${data.verified
+                                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                        : 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700 shadow-sm'
+                                                    }`}
+                                            >
+                                                {data.verified ? 'Verified' : 'Verify'}
+                                            </button>
+
+                                            <button
+                                                onClick={() => handleAccept(data)}
+                                                disabled={!data.verified || data.accepted}
+                                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${!data.verified || data.accepted
+                                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                        : 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 shadow-sm'
+                                                    }`}
+                                            >
+                                                {data.accepted ? 'Accepted' : 'Accept'}
+                                            </button>
+
+                                            <div className="flex flex-grow items-center gap-2 mt-2 w-full">
+                                                <textarea
+                                                    placeholder="Enter remark..."
+                                                    value={remark}
+                                                    onChange={(e) => setRemark(e.target.value)}
+                                                    className="flex-grow px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                                    rows="1"
+                                                />
+                                                <button
+                                                    onClick={() => handleReject(data, remark)}
+                                                    className="px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600 shadow-sm"
+                                                >
+                                                    Reject with Remark
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg border border-emerald-100">
+                                    <p className="text-sm font-medium text-emerald-700">Consumption:</p>
+                                    <p id="electricity-consumption" className="text-xl font-bold text-emerald-800">
+                                        {electricityData.reduce((sum, data) => sum + parseFloat(data.totalElectricityConsumedMWH || 0), 0).toFixed(2)} MWH
+                                    </p>
+                                </div>
+
+                                <div className="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg border border-emerald-100">
+                                    <p className="text-sm font-medium text-emerald-700">CO₂ Equivalent:</p>
+                                    <p id="co2-equivalent" className="text-xl font-bold text-emerald-800">
+                                        {(electricityData.reduce((sum, data) => sum + parseFloat(data.totalElectricityConsumedMWH || 0), 0) * 0.82).toFixed(2)} tons
+                                    </p>
+                                </div>
+
+                                <div className="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg border border-emerald-100">
+                                    <p className="text-sm font-medium text-emerald-700">Transaction Hash:</p>
+                                    <p id="transaction-hash" className="text-sm font-medium text-emerald-800 truncate">
+                                        {electricityData[0]?._id || '--'}
+                                    </p>
+                                </div>
+                            </div>
+                            <p id="electricity-consumption">Consumption: --</p>
+                            <p id="co2-equivalent">CO₂ Equivalent: --</p>
+                            <p id="transaction-hash">Transaction Hash: --</p>
+                            {successMessage && <p className="mt-4 p-3 rounded-lg bg-green-50 text-green-600 border-l-4 border-green-500">{successMessage}</p>}
+                            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-  )
+    )
 }
 
-export default ElectricityDashboard
+export default ElectricityDashboard;

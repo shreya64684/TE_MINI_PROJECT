@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const CompanyDashboard = () => {
     const navigate = useNavigate();
     const { userId } = useParams(); // Get userId from URL
+    
     const [companyData, setCompanyData] = useState(null);
 
     useEffect(() => {
@@ -63,7 +64,7 @@ const CompanyDashboard = () => {
                                     isActive ? 'flex items-center px-4 py-2 bg-emerald-200' : 'flex items-center px-4 py-2 hover:bg-gray-200'
                                 }
                             >
-                                <FaIndustry className="mr-3" />
+                                <FaPlus className="mr-3" />
                                 Add Data of CO2 Emissions
                             </NavLink>
                         </li>
@@ -109,6 +110,17 @@ const CompanyDashboard = () => {
                             >
                                 <FaPlus className="mr-3" />
                                 Verification Status
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/company-dashboard/${userId}/carbon-report`}
+                                className={({ isActive }) =>
+                                    isActive ? 'flex items-center px-4 py-2 bg-emerald-200' : 'flex items-center px-4 py-2 hover:bg-gray-200'
+                                }
+                            >
+                                <FaIndustry className="mr-3" />
+                                Carbon Footprint
                             </NavLink>
                         </li>
                     </ul>

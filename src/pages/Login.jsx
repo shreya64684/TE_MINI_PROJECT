@@ -34,13 +34,13 @@ const Login = () => {
                 
                 if (role === 'Admin') navigate(`/admin-dashboard/${userId}`);
                 if (role === 'Company') navigate(`/company-dashboard/${userId}`);
-                if (role === 'RawMaterialProvider') navigate(`/raw-material-dashboard/${userId}`);
-                if (role === 'FuelProvider') navigate(`/fuel-dashboard/${userId}`);
+                if (role === 'RawMaterialProvider')  navigate(`/company-selection/${userId}` , { state: { role } });
+               
                 if (role === 'GoodsSupplier') navigate(`/goods-supplier-dashboard/${userId}`);
                 if (role === 'LogisticsPartner') navigate(`/logistics-dashboard/${userId}`);
                 // if (role === 'ElectricitySupplier') navigate(`/electricity-supplier-dashboard/${userId}`);
-                if (role === 'ElectricitySupplier') navigate(`/company-selection/${userId}`);
-            
+                if (role === 'ElectricitySupplier') navigate(`/company-selection/${userId}`, { state: { role } });
+                if (role === 'FuelProvider') navigate(`/company-selection/${userId}`, { state: { role } });
             
             } else {
                 setError(data.message || 'Login failed');

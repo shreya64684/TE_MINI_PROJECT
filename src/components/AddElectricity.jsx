@@ -120,7 +120,8 @@ const AddElectricity = () => {
             });
 
             const data = await response.json();
-            console.log(data);
+            console.log("Data:", data)
+            
             if (response.ok) {
                  // Store data on blockchain
                 await addElectricityDataToBlockchain(formData.date, formData.totalElectricityConsumedMWH, billHash);

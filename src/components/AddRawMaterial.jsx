@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useParams } from 'react-router-dom';
-export default function AddRawMaterialData() {
+const AddRawMaterial = () => {
     const {userId} = useParams();
     console.log("raw-userId", userId);
     const [formData, setFormData] = useState({
@@ -18,7 +18,6 @@ export default function AddRawMaterialData() {
      // Handle file selection
      const handleFileChange = (e) => {
         console.log("File Selected");
-        
         setFile(e.target.files[0]);
     };
 
@@ -27,6 +26,7 @@ export default function AddRawMaterialData() {
 
      // Upload file to Pinata
      const uploadToPinata = async (file) => {
+        console.log("file in upload: ", file);
         const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
         const formData = new FormData();
         formData.append("file", file);
@@ -62,7 +62,7 @@ export default function AddRawMaterialData() {
             console.log(data);
             const fileURL = 'https://gateway.pinata.cloud/ipfs/' + data.IpfsHash;
             setFileURL(fileURL);
-            console.log(fileURL);
+            console.log("fileURL in uploadToPinata function: ", fileURL);
             return data.IpfsHash;
             
         } catch (error) {
@@ -72,13 +72,14 @@ export default function AddRawMaterialData() {
     };
 
     console.log(formData);
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
     
         // Upload file to Pinata and get the IPFS hash
         const billHash = await uploadToPinata(file);
-        console.log(billHash);
+        console.log("billHash in :",billHash);
 
        // Add the IPFS hash to formData and send it to the blockchain
         const response = await fetch(`http://localhost:5000/api/company/${userId}/add-raw-material`, {
@@ -87,14 +88,13 @@ export default function AddRawMaterialData() {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure JWT token is sent for authentication
             },
-            body: JSON.stringify({ ...formData, rawMaterial: billHash })
+            body: JSON.stringify({ ...formData, rawMaterialBill: billHash })
         });
 
         const data = await response.json();
         console.log("Data:", data)
         console.log(data);              
-        if (response.ok) {
-            
+        if (response.ok) {    
            setSuccessMessage('Raw Material Data successfully added.');
            setErrorMessage('');
            // Reset form
@@ -208,5 +208,5 @@ export default function AddRawMaterialData() {
 
     );
 };
-console.log("AddRawMaterialData: ", AddRawMaterialData); 
-// export default AddRawMaterialData;
+
+export default AddRawMaterial;
