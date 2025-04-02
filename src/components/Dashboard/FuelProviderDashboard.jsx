@@ -406,7 +406,7 @@ const FuelProviderDashboard = () => {
                                                         <ul className="text-xl font-bold text-emerald-600">
                                                             {data.fuel.map((fuel, index) => (
                                                                 <li key={index}>
-                                                                    {fuel.fuelType}: {fuel.quantitySupplied} liters, Heating Value: {fuel.lowerHeatingValue} MJ/kg, Carbon Content: {fuel.carbonContent}%
+                                                                    {fuel.fuelType}: {fuel.quantitySupplied} Kg, Heating Value: {fuel.lowerHeatingValue} MJ/kg, Carbon Content: {fuel.carbonContent}%
                                                                 </li>
                                                             ))}
                                                         </ul>

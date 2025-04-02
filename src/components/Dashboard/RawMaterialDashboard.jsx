@@ -289,20 +289,7 @@ const RawMaterialDashboard = () => {
 
     // Render company-specific dashboard data
     return (
-        // <div className="p-6">
-        //     <h1 className="text-2xl font-bold mb-4">Raw Material Dashboard</h1>
-        //     {error && <p className="text-red-500">{error}</p>}
-        //     <ul>
-        //         {rawMaterialData.map((mat, index) => (
-        //             <li key={index} className="border p-3 mb-2 rounded">
-
-        //                 Material: {mat.material[0].materialType}, Quantity: {mat.material[0].quantitySupplied}, Verified: {mat.verified ? 'Yes' : 'No'} , Date : {mat.date}
-        //             </li>
-        //         ))}
-        //     </ul>
-        // </div>
-
-
+      
         <div className="flex h-screen bg-gray-100 ">
             {/* Sidebar */}
             <aside className="w-64 bg-white shadow-lg">

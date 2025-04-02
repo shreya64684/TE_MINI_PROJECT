@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react'
 import ScoreCard from '../components/ScoreCard';
 import GaugeMeter from '../components/UI/GaugeMeter';
 import { useParams } from 'react-router-dom';
+import CarbonFootprintScore from '../components/UI/CarbonFootprintScore';
 
 const CarbonReport = () => {
     // State to store CO₂ report data
@@ -65,7 +66,7 @@ const CarbonReport = () => {
 
     const conversionFactors = {
         electricity: 0.82, // Example factor for electricity
-        fuel: 2.7, // Example factor for fuel
+        fuel: 3.66, // Example factor for fuel
         rawMaterial: 0.8 // Example factor for raw materials
     };
 
@@ -103,15 +104,16 @@ const CarbonReport = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center items-center h-[40vh] bg-transparent  mt-[80px] mb-8">
-                    <div className="p-8 bg-white shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl bg-gradient-to-br from-white to-blue-50 w-full max-w-md">
-                        <h2 className="text-2xl font-bold text-center mb-4 text-emerald-700 tracking-tight">
+                {/* <div className="flex justify-center items-center h-[40vh] bg-transparent  mt-[80px] mb-8"> */}
+                    {/* <div className="p-8 bg-white shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl bg-gradient-to-br from-white to-blue-50 w-full max-w-md"> */}
+                        {/* <h2 className="text-2xl font-bold text-center mb-4 text-emerald-700 tracking-tight">
                             Carbon Credit Score
-                        </h2>
-                        <GaugeMeter percentage={81} />
-                        <p className="text-center mt-4 text-gray-600 font-medium">Your carbon footprint is <span className="text-emerald-600 font-bold">19% lower</span> than industry average</p>
-                    </div>
-                </div>
+                        </h2> */}
+                        <CarbonFootprintScore totalCO2={500000} cementProduced={600000} />
+                        {/* <GaugeMeter percentage={81} /> */}
+                        {/* <p className="text-center mt-4 text-gray-600 font-medium">Your carbon footprint is <span className="text-emerald-600 font-bold">19% lower</span> than industry average</p> */}
+                    {/* </div> */}
+                {/* </div> */}
 
                 {/* Cards Section */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-[80px] mb-8">
