@@ -14,3 +14,6 @@ const ScoreCard = ({ title, value, percentage, increase, icon }) => {
   };
   
   export default ScoreCard;
+
+
+

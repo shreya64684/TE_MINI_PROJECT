@@ -32,4 +32,8 @@ const GaugeMeter = ({ percentage }) => {
   );
 };
 
+<<<<<<< HEAD
 export default GaugeMeter;
+=======
+export default GaugeMeter;
+>>>>>>> f8f25ebd158aef7bc3789c6f10caaa121c43ed28

@@ -296,6 +296,22 @@ const RawMaterialDashboard = () => {
                 <div className="px-6 py-8">
                     <h2 className="text-2xl font-bold text-emerald-600">Raw Material Provider Dashboard</h2>
                 </div>
+                <nav className="mt-10">
+                    <ul>
+                        {/* <li>
+                            <NavLink
+                                to={`/raw-material-dashboard/${userId}/add`}
+                                className={({ isActive }) =>
+                                    isActive ? 'flex items-center px-4 py-2 bg-emerald-200' : 'flex items-center px-4 py-2 hover:bg-gray-200'
+                                }
+                            >
+                                <FaPlus className="mr-3" />
+                                Add Raw Material Data
+                            </NavLink>
+                        </li> */}
+                       
+                    </ul>
+                </nav>
             </aside>
 
             {/* Main Content Area */}
@@ -303,6 +319,12 @@ const RawMaterialDashboard = () => {
                 {/* Profile and Content Area */}
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-semibold text-gray-700">Dashboard Overview</h1>
+                    <button 
+                        onClick={handleLogout} 
+                        className='mt-4 py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-200'
+                    >
+                        Logout
+                    </button>
                     <div className="flex items-center space-x-4">
                         <FaUserCircle className="text-3xl text-gray-500" />
                         <span className="text-lg text-gray-700">Raw Material Provider Profile</span>
@@ -338,7 +360,8 @@ const RawMaterialDashboard = () => {
                                 <p>
                                     Raw Material Bill:{' '}
                                     <a
-                                        href={`https://gateway.pinata.cloud/ipfs/${data.rawMaterialBill}`}
+                                        // href={`https://ipfs.io/ipfs/${data.electricityBill}`}  
+                                       href={`https://gateway.pinata.cloud/ipfs/${data.rawMaterialBill}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-blue-500 underline"
@@ -387,7 +410,8 @@ const RawMaterialDashboard = () => {
                                         }`}
                                 >
                                     {data.accepted ? 'Accepted' : 'Accept'}
-                                </button>
+                              </button>
+
                             </li>
                         ))}
                     </ul>
