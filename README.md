@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+# 🌱 Secure Transparent Carbon Footprint Management Platform using Blockchain
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A decentralized web-based platform for transparent and tamper-proof tracking of carbon emissions and carbon credit trading. This project leverages blockchain and IPFS to ensure trust, accuracy, and security in environmental data reporting, especially for high-emission industries like cement and steel.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📌 Project Description
 
-### `npm start`
+The platform allows companies to log carbon footprint data across Scope 1, 2, and 3 emissions. It uses blockchain to record verified data, enabling real-time visibility and secure carbon credit trading. Machine learning models suggest ways to reduce emissions based on submitted data. IPFS is used for document storage and verification, ensuring decentralization and immutability.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Features
 
-### `npm test`
+- 🔐 **Blockchain-based Emission Logging:** Immutable and transparent CO₂ data records.
+- 📤 **IPFS Integration:** Decentralized file storage for verification documents (like electricity bills).
+- 🧾 **Carbon Credit Calculation & Trading:** Smart contracts manage carbon credit allocation and transactions.
+- 📊 **Company Dashboard:** Emissions overview and category-wise breakdown with visual insights.
+- 🤖 **AI/ML Insights:** Personalized suggestions to reduce carbon footprints.
+- 👤 **Multi-Role Login:** Admins, companies, suppliers, and partners have tailored access and functions.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🌍 Social Relevance
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Promotes **carbon accountability and transparency** in industries.
+- Encourages **green practices** by making carbon reduction efforts measurable and tradable.
+- Aligns with **UN SDGs** and supports **net-zero emission goals**.
+- Enables **trustworthy carbon markets** in developing nations.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Tech Stack
 
-### `npm run eject`
+- **Frontend:** React.js, Bootstrap, Tailwind CSS
+- **Backend:** Node.js, Express.js
+- **Blockchain:** Ethereum, Smart Contracts (Solidity), Truffle , Ganache, Web3 JS 
+- **Storage:** MongoDB, IPFS
+- **Authentication:** JWT, Role-based Auth
+- **ML Integration:** Google Gemini API (for insights & OCR)
+- **Deployment:** MetaMask
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ⚙️ Installation Steps
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+# 1. Clone the repository
+git clone https://github.com/shreya64684/TE_MINI_PROJECT.git
+cd te_mini_project
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# 2. Set up the backend
+cd backend
+nodemon app.js  #setup .env with local mongo url
 
-## Learn More
+# 3. Set up the frontend
+npm install
+npm start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# 4. Blockchain Setup (local dev)
+# Install Ganache or use testnet like Polygon Mumbai
+# Compile and deploy smart contracts using Hardhat or Truffle
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# 5. Environment Variables
+# Create .env files in backend and frontend folders with necessary keys (MongoDB URI, IPFS API keys, etc.)
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 6. Access the app
+Visit http://localhost:3000
